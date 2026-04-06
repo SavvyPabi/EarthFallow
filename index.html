@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earth Fallow Alliance — Restoring What Was Lost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0D1208;
+  --parchment: #F4F0E8;
+  --moss: #2C4A2E;
+  --sage: #5C7A4E;
+  --fern: #8FAF7E;
+  --mist: #E8EDE4;
+  --gold: #B5922A;
+  --stone: #6B6557;
+  --paper: #FAF8F3;
+  --charcoal: #1C1C1A;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  width: 10px; height: 10px;
+  background: var(--moss);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid var(--moss);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.08s linear;
+  opacity: 0.5;
+}
+
+body:hover .cursor { opacity: 1; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  padding: 0 5vw;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+nav.scrolled {
+  background: rgba(244, 240, 232, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(44, 74, 46, 0.12);
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  width: 28px; height: 28px;
+  border: 1.5px solid var(--moss);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-mark svg { width: 14px; height: 14px; }
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--stone);
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--moss); }
+
+.nav-donate {
+  background: var(--moss);
+  color: var(--paper);
+  text-decoration: none;
+  padding: 0.55rem 1.5rem;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.25s;
+}
+
+.nav-donate:hover { background: var(--ink); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 5vw 8vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(44,74,46,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(143,175,126,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Animated organic shapes */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.5;
+  animation: orb-drift 12s ease-in-out infinite alternate;
+}
+
+.orb-1 { width: 500px; height: 500px; background: #2C4A2E; top: -100px; right: -100px; animation-delay: 0s; }
+.orb-2 { width: 300px; height: 300px; background: #5C7A4E; bottom: 0; left: 10%; animation-delay: -4s; }
+.orb-3 { width: 200px; height: 200px; background: #8FAF7E; top: 40%; right: 25%; animation-delay: -8s; }
+
+@keyframes orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -30px) scale(1.08); }
+}
+
+/* Grain texture overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fern);
+  font-weight: 500;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: rise 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 9vw, 10rem);
+  font-weight: 300;
+  line-height: 0.95;
+  color: var(--parchment);
+  letter-spacing: -0.02em;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: rise 0.9s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--fern);
+}
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  opacity: 0;
+  animation: rise 0.8s 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: rgba(244, 240, 232, 0.6);
+  font-weight: 300;
+  max-width: 420px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.hero-stat { text-align: right; }
+
+.hero-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--fern);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(244, 240, 232, 0.4);
+  margin-top: 4px;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(244,240,232,0.3);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 2;
+  animation: fade-in 1s 1.2s both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(143,175,126,0.6), transparent);
+  animation: line-grow 1.5s 1.5s ease-out infinite;
+}
+
+@keyframes line-grow {
+  0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: top; opacity: 0; }
+}
+
+/* MARQUEE BAND */
+.marquee-band {
+  background: var(--moss);
+  padding: 1rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 25s linear infinite;
+  gap: 0;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 2.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fern);
+  font-weight: 400;
+}
+
+.marquee-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* MANIFESTO */
+.manifesto {
+  padding: 10rem 5vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.manifesto-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 500;
+  padding-top: 0.5rem;
+  position: sticky;
+  top: 100px;
+}
+
+.manifesto-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.manifesto-body em {
+  font-style: italic;
+  color: var(--sage);
+}
+
+.manifesto-body strong {
+  font-weight: 600;
+  color: var(--moss);
+}
+
+.manifesto-footnote {
+  margin-top: 3rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--stone);
+  font-weight: 300;
+  max-width: 560px;
+  border-left: 2px solid var(--fern);
+  padding-left: 1.5rem;
+}
+
+/* PILLARS */
+.pillars {
+  background: var(--ink);
+  padding: 8rem 5vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillars::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(44,74,46,0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pillars-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5rem;
+  position: relative;
+}
+
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.section-label.light { color: var(--fern); }
+.section-label.dark { color: var(--sage); }
+
+.pillars-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: 300;
+  color: var(--parchment);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 1rem;
+}
+
+.pillars-title em { color: var(--fern); font-style: italic; }
+
+.pillars-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8rem;
+  font-weight: 300;
+  color: rgba(143,175,126,0.08);
+  line-height: 1;
+  align-self: flex-end;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+}
+
+.pillar {
+  padding: 3rem 2.5rem;
+  background: var(--ink);
+  transition: background 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillar::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--moss);
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: left;
+}
+
+.pillar:hover { background: rgba(44,74,46,0.12); }
+.pillar:hover::before { transform: scaleX(1); }
+
+.pillar-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: rgba(143,175,126,0.4);
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+.pillar-icon-wrap {
+  width: 48px; height: 48px;
+  border: 1px solid rgba(143,175,126,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.pillar-icon-wrap svg { width: 20px; height: 20px; stroke: var(--fern); fill: none; stroke-width: 1.5; }
+
+.pillar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.3;
+  margin-bottom: 1rem;
+}
+
+.pillar-desc {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: rgba(244,240,232,0.45);
+  font-weight: 300;
+}
+
+/* PROGRAMS */
+.programs {
+  padding: 10rem 5vw;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.programs-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 6rem;
+}
+
+.programs-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 1rem;
+}
+
+.programs-title em { color: var(--sage); font-style: italic; }
+
+.programs-intro {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--stone);
+  font-weight: 300;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(44,74,46,0.15);
+}
+
+.programs-list { display: flex; flex-direction: column; }
+
+.program-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid rgba(44,74,46,0.1);
+  cursor: pointer;
+  position: relative;
+  transition: padding 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.program-row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--mist);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.program-row:hover { padding-left: 1.5rem; padding-right: 1.5rem; }
+.program-row:hover::after { opacity: 1; }
+
+.program-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: var(--fern);
+  font-weight: 300;
+}
+
+.program-info {}
+
+.program-tag-small {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.program-title-row {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.program-desc-row {
+  font-size: 0.88rem;
+  color: var(--stone);
+  font-weight: 300;
+  margin-top: 0.4rem;
+  line-height: 1.65;
+}
+
+.program-arrow {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(44,74,46,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.program-row:hover .program-arrow {
+  background: var(--moss);
+  border-color: var(--moss);
+}
+
+.program-row:hover .program-arrow svg { stroke: var(--paper); }
+
+.program-arrow svg { width: 16px; height: 16px; stroke: var(--stone); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
+
+/* IMPACT */
+.impact {
+  background: var(--mist);
+  padding: 8rem 5vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.impact-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 5rem;
+  border: 1px solid rgba(44,74,46,0.12);
+}
+
+.impact-cell {
+  padding: 3.5rem 3rem;
+  border-right: 1px solid rgba(44,74,46,0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.impact-cell:last-child { border-right: none; }
+
+.impact-cell::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--moss), var(--sage));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.impact-cell:hover::after { transform: scaleX(1); }
+
+.impact-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 4vw, 4.5rem);
+  font-weight: 300;
+  color: var(--moss);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.impact-label {
+  font-size: 0.82rem;
+  color: var(--stone);
+  line-height: 1.6;
+  margin-top: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* DONATE */
+.donate {
+  padding: 10rem 5vw;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: center;
+}
+
+.donate-left .section-label { margin-bottom: 1.5rem; }
+
+.donate-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.donate-title em { color: var(--sage); font-style: italic; }
+
+.donate-body {
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: var(--stone);
+  font-weight: 300;
+  margin-bottom: 3rem;
+}
+
+.donate-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+
+.tier {
+  padding: 0.65rem 1.5rem;
+  border: 1px solid rgba(44,74,46,0.25);
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--stone);
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+}
+
+.tier.active, .tier:hover {
+  background: var(--moss);
+  border-color: var(--moss);
+  color: var(--paper);
+}
+
+.donate-note {
+  font-size: 0.8rem;
+  color: var(--stone);
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+.donate-right {}
+
+.donate-form {
+  background: var(--parchment);
+  border: 1px solid rgba(44,74,46,0.1);
+  padding: 3.5rem;
+}
+
+.donate-form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 2.5rem;
+}
+
+.field { margin-bottom: 1.5rem; }
+
+label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--stone);
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: var(--paper);
+  border: 1px solid rgba(44,74,46,0.15);
+  color: var(--ink);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+input:focus, select:focus, textarea:focus { border-color: var(--moss); }
+textarea { resize: vertical; }
+
+.submit-btn {
+  width: 100%;
+  background: var(--moss);
+  color: var(--paper);
+  border: none;
+  padding: 1.1rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s;
+  border-radius: 0;
+  margin-top: 0.5rem;
+}
+
+.submit-btn:hover { background: var(--ink); }
+
+.form-footnote {
+  font-size: 0.75rem;
+  color: var(--stone);
+  opacity: 0.5;
+  text-align: center;
+  margin-top: 1.2rem;
+  font-weight: 300;
+}
+
+/* BLOG */
+.stories {
+  background: var(--ink);
+  padding: 10rem 5vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.stories-inner { max-width: 1400px; margin: 0 auto; }
+
+.stories-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5rem;
+}
+
+.stories-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  font-weight: 300;
+  color: var(--parchment);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-top: 1rem;
+}
+
+.stories-title em { color: var(--fern); font-style: italic; }
+
+.all-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--fern);
+  text-decoration: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: gap 0.3s;
+  padding-bottom: 0.5rem;
+}
+
+.all-link:hover { gap: 1.25rem; }
+.all-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 1.5px;
+  background: rgba(255,255,255,0.04);
+}
+
+.story-card {
+  background: var(--ink);
+  padding: 2.5rem;
+  transition: background 0.3s;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.story-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(44,74,46,0.1);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.story-card:hover { background: rgba(44,74,46,0.08); }
+.story-card:hover::before { opacity: 1; }
+
+.story-card.featured { padding: 3rem; }
+
+.story-meta {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fern);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.story-meta span { color: rgba(143,175,126,0.4); }
+
+.story-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  color: var(--parchment);
+  line-height: 1.35;
+  margin-bottom: 1.25rem;
+}
+
+.featured .story-title { font-size: 2rem; }
+.story-card:not(.featured) .story-title { font-size: 1.25rem; }
+
+.story-excerpt {
+  font-size: 0.88rem;
+  color: rgba(244,240,232,0.45);
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.story-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fern);
+  font-weight: 500;
+  text-decoration: none;
+  transition: gap 0.3s;
+}
+
+.story-read:hover { gap: 0.9rem; }
+.story-read svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* CONTACT */
+.contact {
+  padding: 10rem 5vw;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.contact-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin: 1.5rem 0 2rem;
+}
+
+.contact-title em { color: var(--sage); font-style: italic; }
+
+.contact-body {
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: var(--stone);
+  font-weight: 300;
+  margin-bottom: 3rem;
+}
+
+.contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.contact-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(44,74,46,0.1);
+}
+
+.contact-line:last-child { border-bottom: none; }
+
+.contact-line-icon {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(44,74,46,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-line-icon svg { width: 14px; height: 14px; stroke: var(--moss); fill: none; stroke-width: 1.5; }
+
+.contact-line-text {}
+
+.contact-line-key {
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.contact-line-val {
+  font-size: 0.95rem;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.contact-right {}
+
+.contact-form {
+  background: var(--parchment);
+  border: 1px solid rgba(44,74,46,0.1);
+  padding: 3.5rem;
+}
+
+/* FOOTER */
+footer {
+  background: var(--charcoal);
+  padding: 6rem 5vw 3rem;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 4rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--parchment);
+  margin-bottom: 1.25rem;
+}
+
+.footer-brand em { color: var(--fern); font-style: italic; }
+
+.footer-tagline {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: rgba(244,240,232,0.35);
+  font-weight: 300;
+  max-width: 280px;
+}
+
+.footer-col-head {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fern);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.footer-col-links a {
+  text-decoration: none;
+  color: rgba(244,240,232,0.4);
+  font-size: 0.88rem;
+  font-weight: 300;
+  transition: color 0.2s;
+}
+
+.footer-col-links a:hover { color: var(--parchment); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 0.78rem;
+  color: rgba(244,240,232,0.2);
+  font-weight: 300;
+}
+
+/* ANIMATIONS */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .hero-bottom { grid-template-columns: 1fr; }
+  .hero-stats { justify-content: flex-start; }
+  .manifesto { grid-template-columns: 1fr; gap: 2rem; }
+  .manifesto-label { position: static; }
+  .pillars-grid { grid-template-columns: 1fr 1fr; }
+  .programs-header { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .impact-cell:nth-child(2) { border-right: none; }
+  .impact-cell:nth-child(3) { border-right: 1px solid rgba(44,74,46,0.12); }
+  .donate { grid-template-columns: 1fr; gap: 4rem; }
+  .stories-grid { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; gap: 4rem; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 3rem; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 5vw; }
+  .nav-links { display: none; }
+  .hero-title { font-size: 3.5rem; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .impact-cell { border-right: none; border-bottom: 1px solid rgba(44,74,46,0.12); }
+  .donate-form { padding: 2rem; }
+  .contact-form { padding: 2rem; }
+  .footer-top { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3C12 3 5 8 5 14a7 7 0 0014 0C19 8 12 3 12 3z" stroke="#2C4A2E" stroke-width="1.5" stroke-linejoin="round"/>
+        <line x1="12" y1="14" x2="12" y2="21" stroke="#2C4A2E" stroke-width="1.5"/>
+      </svg>
+    </div>
+    Earth Fallow Alliance
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#mission">Mission</a></li>
+      <li><a href="#programs">Programs</a></li>
+      <li><a href="#stories">Stories</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#donate" class="nav-donate">Donate</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="orb-1 hero-orb"></div>
+  <div class="orb-2 hero-orb"></div>
+  <div class="orb-3 hero-orb"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Earth Fallow Alliance · Est. 2019 · Accra, Ghana</p>
+    <h1 class="hero-title">
+      Land that<br>
+      <em>breathes</em><br>
+      again.
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-sub">
+        We restore what was taken, defend what remains, and build communities that know how to give back to the earth they depend on.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">12,400</div>
+          <div class="hero-stat-label">Hectares restored</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">34</div>
+          <div class="hero-stat-label">Communities</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">1.2M</div>
+          <div class="hero-stat-label">Tonnes CO₂</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span> Reforestation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Land Restoration</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Climate Advocacy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Environmental Education</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Circular Economy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Community Action</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Reforestation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Land Restoration</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Climate Advocacy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Environmental Education</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Circular Economy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span> Community Action</span>
+  </div>
+</div>
+
+<!-- MANIFESTO / MISSION -->
+<section id="mission" class="manifesto">
+  <div class="manifesto-label dark reveal">Who we are</div>
+  <div>
+    <div class="manifesto-body reveal reveal-delay-1">
+      Fallow land is not wasteland.<br>
+      It is land <em>resting</em> — recovering,<br>
+      holding memory, waiting.<br><br>
+      We believe <strong>every degraded acre</strong><br>
+      still knows what it once was.
+    </div>
+    <div class="manifesto-footnote reveal reveal-delay-2">
+      Earth Fallow Alliance works at the intersection of ecology and people. We plant trees where forests once stood, carry rural voices into policy rooms that rarely hear them, rethink how communities handle what they discard, and give young people the tools to think like stewards — not just consumers.
+    </div>
+  </div>
+</section>
+
+<!-- PILLARS -->
+<section class="pillars">
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <div class="pillars-header">
+      <div>
+        <div class="section-label light reveal">Our four pillars</div>
+        <h2 class="pillars-title reveal reveal-delay-1">What we<br><em>stand for.</em></h2>
+      </div>
+      <div class="pillars-count reveal reveal-delay-2">04</div>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar reveal">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 4 9 4 15a8 8 0 0016 0C20 9 12 2 12 2z"/><line x1="12" y1="15" x2="12" y2="22"/></svg>
+        </div>
+        <div class="pillar-name">Reforestation &amp; Land Restoration</div>
+        <div class="pillar-desc">Returning degraded land to ecological life — through community-led planting, soil regeneration, and long-term stewardship.</div>
+      </div>
+      <div class="pillar reveal reveal-delay-1">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="pillar-name">Climate Advocacy &amp; Policy</div>
+        <div class="pillar-desc">Bringing community evidence into national and regional climate conversations. The people closest to the land should be closest to the table.</div>
+      </div>
+      <div class="pillar reveal reveal-delay-2">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v4l-8 8-8-8V4z"/><line x1="12" y1="16" x2="12" y2="22"/></svg>
+        </div>
+        <div class="pillar-name">Waste Reduction &amp; Circular Economy</div>
+        <div class="pillar-desc">Testing zero-waste systems in real markets and communities — composting networks, upcycling hubs, and producer accountability.</div>
+      </div>
+      <div class="pillar reveal reveal-delay-3">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M2 20h20M6 20V10l6-7 6 7v10"/><line x1="10" y1="20" x2="10" y2="14"/><line x1="14" y1="20" x2="14" y2="14"/></svg>
+        </div>
+        <div class="pillar-name">Environmental Education &amp; Youth</div>
+        <div class="pillar-desc">A fellowship and ambassador programme for the next generation — building the environmental leaders this continent needs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section class="impact">
+  <div class="impact-inner">
+    <div class="section-label dark reveal">Impact to date</div>
+    <div class="impact-grid">
+      <div class="impact-cell reveal">
+        <div class="impact-num">12,400</div>
+        <div class="impact-label">Hectares of degraded land restored</div>
+      </div>
+      <div class="impact-cell reveal reveal-delay-1">
+        <div class="impact-num">34</div>
+        <div class="impact-label">Communities in our alliance network</div>
+      </div>
+      <div class="impact-cell reveal reveal-delay-2">
+        <div class="impact-num">1.2M</div>
+        <div class="impact-label">Tonnes of CO₂ sequestered</div>
+      </div>
+      <div class="impact-cell reveal reveal-delay-3">
+        <div class="impact-num">6,800</div>
+        <div class="impact-label">Youth trained in environmental stewardship</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs">
+  <div class="programs">
+    <div class="programs-header">
+      <div>
+        <div class="section-label dark reveal">Programs</div>
+        <h2 class="programs-title reveal reveal-delay-1">Rooted in<br><em>real places.</em></h2>
+      </div>
+      <p class="programs-intro reveal reveal-delay-2">
+        Every programme we run is co-designed with the communities it serves. We do not arrive with blueprints — we arrive with questions. Everything that follows is built from the answers.
+      </p>
+    </div>
+    <div class="programs-list">
+      <a class="program-row reveal" href="#">
+        <div class="program-num">01</div>
+        <div class="program-info">
+          <div class="program-tag-small">Restoration</div>
+          <div class="program-title-row">The Fallow Fields Initiative</div>
+          <div class="program-desc-row">Community-led tree planting and soil regeneration in degraded agricultural zones. We train local planters, establish seed banks, and stay for the long run.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a class="program-row reveal" href="#">
+        <div class="program-num">02</div>
+        <div class="program-info">
+          <div class="program-tag-small">Advocacy</div>
+          <div class="program-title-row">The Community Climate Desk</div>
+          <div class="program-desc-row">Policy briefs, public campaigns, and direct community representation at national and regional environmental bodies.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a class="program-row reveal" href="#">
+        <div class="program-num">03</div>
+        <div class="program-info">
+          <div class="program-tag-small">Circular Economy</div>
+          <div class="program-title-row">Zero-to-Landfill Pilots</div>
+          <div class="program-desc-row">Working with local markets and producers to test waste-free supply chains, composting networks, and upcycling hubs.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a class="program-row reveal" href="#">
+        <div class="program-num">04</div>
+        <div class="program-info">
+          <div class="program-tag-small">Education</div>
+          <div class="program-title-row">Green Futures Fellowship</div>
+          <div class="program-desc-row">An annual fellowship for 18–25 year olds to design and implement a local environmental project — with full mentorship and funding.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a class="program-row reveal" href="#">
+        <div class="program-num">05</div>
+        <div class="program-info">
+          <div class="program-tag-small">Community</div>
+          <div class="program-title-row">Alliance Ambassadors</div>
+          <div class="program-desc-row">A volunteer network of local champions embedding environmental practice into markets, schools, and community gatherings.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+      <a class="program-row reveal" href="#">
+        <div class="program-num">06</div>
+        <div class="program-info">
+          <div class="program-tag-small">Research</div>
+          <div class="program-title-row">The Land Memory Project</div>
+          <div class="program-desc-row">Documenting ecological change at a hyper-local level — partnering universities with elders who remember what the land once looked like.</div>
+        </div>
+        <div class="program-arrow">
+          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE -->
+<section id="donate" style="background: var(--mist);">
+  <div class="donate">
+    <div class="donate-left">
+      <div class="section-label dark reveal">Support the Alliance</div>
+      <h2 class="donate-title reveal reveal-delay-1">Your contribution<br>plants <em>deep roots.</em></h2>
+      <p class="donate-body reveal reveal-delay-2">
+        We are community-funded. No corporate donor tells us which land to restore or which policy table to avoid. That independence comes from people who choose to back work that answers to the earth — not a boardroom.
+      </p>
+      <div class="donate-tiers reveal reveal-delay-3" id="tiers">
+        <button class="tier" onclick="setTier(this,'25')">GHS 25</button>
+        <button class="tier active" onclick="setTier(this,'50')">GHS 50</button>
+        <button class="tier" onclick="setTier(this,'100')">GHS 100</button>
+        <button class="tier" onclick="setTier(this,'250')">GHS 250</button>
+        <button class="tier" onclick="setTier(this,'')">Other</button>
+      </div>
+      <p class="donate-note reveal reveal-delay-4">GHS 50 sponsors one sapling and its first full year of care.</p>
+    </div>
+    <div class="donate-right reveal reveal-delay-2">
+      <div class="donate-form">
+        <div class="donate-form-title">Make a contribution</div>
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" placeholder="you@email.com">
+        </div>
+        <div class="field">
+          <label>Amount (GHS)</label>
+          <input type="number" id="amount-input" value="50" placeholder="50">
+        </div>
+        <div class="field">
+          <label>Dedicate this gift (optional)</label>
+          <input type="text" placeholder="In honour of...">
+        </div>
+        <button class="submit-btn">Contribute to the Alliance</button>
+        <div class="form-footnote">Secure payment · Tax receipt issued · No unsolicited mail, ever</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section id="stories" class="stories">
+  <div class="stories-inner">
+    <div class="stories-header">
+      <div>
+        <div class="section-label light reveal">Stories from the field</div>
+        <h2 class="stories-title reveal reveal-delay-1">From the<br><em>ground up.</em></h2>
+      </div>
+      <a href="#" class="all-link reveal reveal-delay-2">
+        All stories
+        <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+      </a>
+    </div>
+    <div class="stories-grid">
+      <div class="story-card featured reveal">
+        <div class="story-meta">Land Restoration <span>·</span> April 2025</div>
+        <h3 class="story-title">The village that turned its dry season into a planting season</h3>
+        <p class="story-excerpt">Nkonya Ahenkro used to lose topsoil every harmattan. Three years into the Fallow Fields Initiative, the community has flipped the script — using the dry months to prepare, not mourn. The change did not begin with us. It began with a question we asked.</p>
+        <a href="#" class="story-read">
+          Read the story
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="story-card reveal reveal-delay-1">
+        <div class="story-meta">Policy <span>·</span> March 2025</div>
+        <h3 class="story-title">What happened when farmers testified at Parliament</h3>
+        <p class="story-excerpt">For the first time, three Alliance Ambassadors presented community evidence to a parliamentary select committee on land use.</p>
+        <a href="#" class="story-read">
+          Read
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="story-card reveal reveal-delay-2">
+        <div class="story-meta">Education <span>·</span> February 2025</div>
+        <h3 class="story-title">Meet the 2025 Green Futures Fellows</h3>
+        <p class="story-excerpt">Twelve young people. Twelve bold local projects. One year to build something real in their communities.</p>
+        <a href="#" class="story-read">
+          Read
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact">
+    <div>
+      <div class="section-label dark reveal">Get in touch</div>
+      <h2 class="contact-title reveal reveal-delay-1">There is room<br>for <em>everyone</em><br>in this alliance.</h2>
+      <p class="contact-body reveal reveal-delay-2">
+        Whether you are a community leader, researcher, funder, or simply someone who cares — we want to hear from you. The alliance grows because people choose to show up.
+      </p>
+      <div class="contact-details reveal reveal-delay-3">
+        <div class="contact-line">
+          <div class="contact-line-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          </div>
+          <div class="contact-line-text">
+            <div class="contact-line-key">Location</div>
+            <div class="contact-line-val">Accra, Ghana</div>
+          </div>
+        </div>
+        <div class="contact-line">
+          <div class="contact-line-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-line-text">
+            <div class="contact-line-key">Email</div>
+            <div class="contact-line-val">hello@earthfallowalliance.org</div>
+          </div>
+        </div>
+        <div class="contact-line">
+          <div class="contact-line-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-line-text">
+            <div class="contact-line-key">Phone</div>
+            <div class="contact-line-val">+233 30 000 0000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right reveal reveal-delay-2">
+      <div class="contact-form">
+        <div class="donate-form-title">Send us a message</div>
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" placeholder="Full name">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="you@email.com">
+        </div>
+        <div class="field">
+          <label>How can we help?</label>
+          <select>
+            <option>Partnership enquiry</option>
+            <option>Volunteering</option>
+            <option>Media request</option>
+            <option>Fellowship application</option>
+            <option>General question</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Tell us what is on your mind..."></textarea>
+        </div>
+        <button class="submit-btn">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Earth Fallow <em>Alliance</em></div>
+      <p class="footer-tagline">Restoring land. Amplifying communities. Building a generation that gives back to the earth it depends on.</p>
+    </div>
+    <div>
+      <div class="footer-col-head">Organisation</div>
+      <ul class="footer-col-links">
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Our team</a></li>
+        <li><a href="#">Annual reports</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-head">Programs</div>
+      <ul class="footer-col-links">
+        <li><a href="#">Fallow Fields</a></li>
+        <li><a href="#">Climate Desk</a></li>
+        <li><a href="#">Zero-to-Landfill</a></li>
+        <li><a href="#">Green Futures</a></li>
+        <li><a href="#">Land Memory</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-head">Connect</div>
+      <ul class="footer-col-links">
+        <li><a href="#">Stories</a></li>
+        <li><a href="#">Volunteer</a></li>
+        <li><a href="#">Donate</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Earth Fallow Alliance. All rights reserved.</span>
+    <span>Privacy · Terms</span>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+(function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) *.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+})();
+
+document.querySelectorAll('a, button, .program-row, .story-card, .pillar, .tier').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
+    cursor.style.background = 'var(--moss)';
+    ring.style.opacity = '0.2';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    cursor.style.background = 'var(--moss)';
+    ring.style.opacity = '0.5';
+  });
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => io.observe(el));
+
+// Donate tiers
+function setTier(btn, amount) {
+  document.querySelectorAll('.tier').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const input = document.getElementById('amount-input');
+  if (amount !== '') {
+    input.value = amount;
+  } else {
+    input.value = '';
+    input.focus();
+  }
+}
+</script>
+</body>
+</html>
