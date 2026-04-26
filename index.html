@@ -20,6 +20,9 @@
   --stone: #6B6557;
   --paper: #FAF8F3;
   --charcoal: #1C1C1A;
+  --sky: #1B3D6E;
+  --sky-mid: #2A5FA8;
+  --sky-light: #4A90D9;
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -32,7 +35,7 @@ body {
   cursor: none;
 }
 
-/* CUSTOM CURSOR */
+/* CURSOR */
 .cursor {
   width: 10px; height: 10px;
   background: var(--moss);
@@ -41,10 +44,9 @@ body {
   top: 0; left: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+  transition: transform 0.15s ease, background 0.3s ease;
   transform: translate(-50%, -50%);
 }
-
 .cursor-ring {
   width: 36px; height: 36px;
   border: 1px solid var(--moss);
@@ -58,8 +60,6 @@ body {
   opacity: 0.5;
 }
 
-body:hover .cursor { opacity: 1; }
-
 /* NAV */
 nav {
   position: fixed;
@@ -72,78 +72,60 @@ nav {
   justify-content: space-between;
   transition: background 0.4s, border-color 0.4s;
 }
-
 nav.scrolled {
-  background: rgba(244, 240, 232, 0.94);
+  background: rgba(13,18,8,0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(44, 74, 46, 0.12);
+  border-bottom: 1px solid rgba(143,175,126,0.15);
 }
-
 .logo {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 300;
   letter-spacing: 0.04em;
-  color: var(--ink);
+  color: var(--parchment);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .logo-mark {
   width: 28px; height: 28px;
-  border: 1.5px solid var(--moss);
+  border: 1.5px solid var(--fern);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-
 .logo-mark svg { width: 14px; height: 14px; }
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-  list-style: none;
-}
-
+.nav-right { display: flex; align-items: center; gap: 3rem; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
 .nav-links a {
   text-decoration: none;
-  color: var(--stone);
-  font-size: 0.82rem;
+  color: rgba(244,240,232,0.65);
+  font-size: 0.8rem;
   font-weight: 400;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   transition: color 0.2s;
 }
-
-.nav-links a:hover { color: var(--moss); }
-
+.nav-links a:hover { color: var(--fern); }
 .nav-donate {
-  background: var(--moss);
-  color: var(--paper);
+  background: var(--fern);
+  color: var(--ink);
   text-decoration: none;
   padding: 0.55rem 1.5rem;
   border-radius: 2px;
   font-size: 0.78rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: background 0.25s;
 }
+.nav-donate:hover { background: var(--parchment); }
 
-.nav-donate:hover { background: var(--ink); }
-
-/* HERO */
+/* ─── HERO WITH FOREST SVG BACKGROUND ─── */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -152,49 +134,85 @@ nav.scrolled {
   padding: 0 5vw 8vh;
   position: relative;
   overflow: hidden;
-  background: var(--ink);
+  background: #071A09;
 }
 
-.hero-bg {
+/* Layered forest illustration */
+.forest-bg {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 80% 40%, rgba(44,74,46,0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(143,175,126,0.15) 0%, transparent 60%);
+  width: 100%; height: 100%;
   pointer-events: none;
 }
 
-/* Animated organic shapes */
-.hero-orb {
+/* Subtle sky gradient */
+.hero-sky {
   position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    #0A1F0C 0%,
+    #0E2A12 30%,
+    #112E14 55%,
+    #071006 100%
+  );
+}
+
+/* Glowing light from above */
+.hero-glow {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse, rgba(143,175,126,0.18) 0%, rgba(44,74,46,0.08) 50%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Mist layers */
+.mist-layer {
+  position: absolute;
+  left: 0; right: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(180,210,160,0.06), transparent);
+  animation: mist-float 8s ease-in-out infinite alternate;
+}
+.mist-1 { bottom: 15%; height: 160px; animation-delay: 0s; }
+.mist-2 { bottom: 25%; height: 100px; animation-delay: -3s; opacity: 0.5; }
+
+@keyframes mist-float {
+  0% { transform: translateX(-20px); opacity: 0.4; }
+  100% { transform: translateX(20px); opacity: 0.7; }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* Firefly particles */
+.fireflies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.firefly {
+  position: absolute;
+  width: 3px; height: 3px;
   border-radius: 50%;
-  pointer-events: none;
-  filter: blur(60px);
-  opacity: 0.5;
-  animation: orb-drift 12s ease-in-out infinite alternate;
+  background: rgba(200,230,140,0.8);
+  box-shadow: 0 0 6px 2px rgba(180,220,100,0.4);
+  animation: fly linear infinite;
 }
 
-.orb-1 { width: 500px; height: 500px; background: #2C4A2E; top: -100px; right: -100px; animation-delay: 0s; }
-.orb-2 { width: 300px; height: 300px; background: #5C7A4E; bottom: 0; left: 10%; animation-delay: -4s; }
-.orb-3 { width: 200px; height: 200px; background: #8FAF7E; top: 40%; right: 25%; animation-delay: -8s; }
-
-@keyframes orb-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, -30px) scale(1.08); }
+@keyframes fly {
+  0%   { transform: translate(0,0); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.8; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
 }
-
-/* Grain texture overlay */
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  opacity: 0.4;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.hero-content { position: relative; z-index: 2; }
 
 .hero-eyebrow {
   font-size: 0.72rem;
@@ -204,7 +222,17 @@ nav.scrolled {
   font-weight: 500;
   margin-bottom: 2rem;
   opacity: 0;
-  animation: rise 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: rise 0.8s 0.2s cubic-bezier(0.22,1,0.36,1) forwards;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 32px; height: 1px;
+  background: var(--fern);
+  opacity: 0.5;
 }
 
 .hero-title {
@@ -216,13 +244,9 @@ nav.scrolled {
   letter-spacing: -0.02em;
   margin-bottom: 3rem;
   opacity: 0;
-  animation: rise 0.9s 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: rise 0.9s 0.35s cubic-bezier(0.22,1,0.36,1) forwards;
 }
-
-.hero-title em {
-  font-style: italic;
-  color: var(--fern);
-}
+.hero-title em { font-style: italic; color: var(--fern); }
 
 .hero-bottom {
   display: grid;
@@ -230,26 +254,17 @@ nav.scrolled {
   gap: 4rem;
   align-items: end;
   opacity: 0;
-  animation: rise 0.8s 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: rise 0.8s 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
 }
-
 .hero-sub {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: rgba(244, 240, 232, 0.6);
+  color: rgba(244,240,232,0.6);
   font-weight: 300;
   max-width: 420px;
 }
-
-.hero-stats {
-  display: flex;
-  gap: 3rem;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
+.hero-stats { display: flex; gap: 3rem; justify-content: flex-end; align-items: flex-end; }
 .hero-stat { text-align: right; }
-
 .hero-stat-num {
   font-family: 'Cormorant Garamond', serif;
   font-size: 2.5rem;
@@ -257,77 +272,62 @@ nav.scrolled {
   color: var(--fern);
   line-height: 1;
 }
-
 .hero-stat-label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(244, 240, 232, 0.4);
+  color: rgba(244,240,232,0.35);
   margin-top: 4px;
 }
 
 .scroll-indicator {
   position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
+  bottom: 2.5rem; left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: rgba(244,240,232,0.3);
-  font-size: 0.7rem;
+  color: rgba(244,240,232,0.25);
+  font-size: 0.68rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  z-index: 2;
+  z-index: 3;
   animation: fade-in 1s 1.2s both;
 }
-
 .scroll-line {
-  width: 1px;
-  height: 48px;
-  background: linear-gradient(to bottom, rgba(143,175,126,0.6), transparent);
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, rgba(143,175,126,0.5), transparent);
   animation: line-grow 1.5s 1.5s ease-out infinite;
 }
-
 @keyframes line-grow {
   0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
   100% { transform: scaleY(1); transform-origin: top; opacity: 0; }
 }
 
-/* MARQUEE BAND */
+/* MARQUEE */
 .marquee-band {
   background: var(--moss);
   padding: 1rem 0;
   overflow: hidden;
   white-space: nowrap;
 }
-
 .marquee-track {
   display: inline-flex;
-  animation: marquee 25s linear infinite;
-  gap: 0;
+  animation: marquee 28s linear infinite;
 }
-
 .marquee-item {
   display: inline-flex;
   align-items: center;
   gap: 1.5rem;
   padding: 0 2.5rem;
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--fern);
   font-weight: 400;
 }
-
-.marquee-dot {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-}
-
+.marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -343,7 +343,6 @@ nav.scrolled {
   max-width: 1400px;
   margin: 0 auto;
 }
-
 .manifesto-label {
   font-size: 0.72rem;
   letter-spacing: 0.18em;
@@ -354,7 +353,6 @@ nav.scrolled {
   position: sticky;
   top: 100px;
 }
-
 .manifesto-body {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
@@ -363,17 +361,8 @@ nav.scrolled {
   color: var(--ink);
   letter-spacing: -0.01em;
 }
-
-.manifesto-body em {
-  font-style: italic;
-  color: var(--sage);
-}
-
-.manifesto-body strong {
-  font-weight: 600;
-  color: var(--moss);
-}
-
+.manifesto-body em { font-style: italic; color: var(--sage); }
+.manifesto-body strong { font-weight: 600; color: var(--moss); }
 .manifesto-footnote {
   margin-top: 3rem;
   font-family: 'Outfit', sans-serif;
@@ -386,40 +375,138 @@ nav.scrolled {
   padding-left: 1.5rem;
 }
 
-/* PILLARS */
-.pillars {
-  background: var(--ink);
+/* ─── THEMATIC AREAS ─── */
+.thematic {
+  background: #F0F4FF;
   padding: 8rem 5vw;
   position: relative;
   overflow: hidden;
 }
+.thematic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 50% 0%, rgba(74,144,217,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.thematic-inner { max-width: 1400px; margin: 0 auto; }
+.thematic-header { margin-bottom: 5rem; }
+.thematic-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--sky);
+  margin-top: 1rem;
+}
+.thematic-title em { color: var(--sky-light); font-style: italic; }
+.thematic-subtitle {
+  font-size: 1rem;
+  color: var(--stone);
+  max-width: 540px;
+  line-height: 1.8;
+  font-weight: 300;
+  margin-top: 1.5rem;
+}
+.thematic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.thematic-card {
+  background: #fff;
+  border: 1px solid rgba(27,61,110,0.1);
+  padding: 2.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s;
+  cursor: default;
+}
+.thematic-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sky), var(--sky-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.thematic-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(27,61,110,0.1); }
+.thematic-card:hover::after { transform: scaleX(1); }
+.thematic-icon {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(27,61,110,0.08), rgba(74,144,217,0.12));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.75rem;
+  font-size: 1.5rem;
+}
+.thematic-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: rgba(27,61,110,0.3);
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+.thematic-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--sky);
+  line-height: 1.3;
+  margin-bottom: 0.85rem;
+}
+.thematic-desc {
+  font-size: 0.84rem;
+  line-height: 1.75;
+  color: var(--stone);
+  font-weight: 300;
+}
+.thematic-tag {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sky-mid);
+  font-weight: 600;
+  border: 1px solid rgba(27,61,110,0.2);
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+}
 
+/* ─── PILLARS (blue section) ─── */
+.pillars {
+  background: var(--sky);
+  padding: 8rem 5vw;
+  position: relative;
+  overflow: hidden;
+}
 .pillars::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(44,74,46,0.25) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(74,144,217,0.2) 0%, transparent 70%);
   pointer-events: none;
 }
-
 .pillars-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 5rem;
   position: relative;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-.section-label {
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-.section-label.light { color: var(--fern); }
+.section-label { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+.section-label.light { color: rgba(143,175,126,0.8); }
 .section-label.dark { color: var(--sage); }
-
+.section-label.blue { color: var(--sky-light); }
 .pillars-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.5rem, 5vw, 5rem);
@@ -429,100 +516,109 @@ nav.scrolled {
   letter-spacing: -0.02em;
   margin-top: 1rem;
 }
-
-.pillars-title em { color: var(--fern); font-style: italic; }
-
+.pillars-title em { color: rgba(200,220,255,0.85); font-style: italic; }
 .pillars-count {
   font-family: 'Cormorant Garamond', serif;
   font-size: 8rem;
   font-weight: 300;
-  color: rgba(143,175,126,0.08);
+  color: rgba(255,255,255,0.04);
   line-height: 1;
   align-self: flex-end;
 }
-
 .pillars-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06);
-  position: relative;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  max-width: 1400px;
+  margin: 0 auto;
 }
-
 .pillar {
   padding: 3rem 2.5rem;
-  background: var(--ink);
+  background: var(--sky);
   transition: background 0.4s;
   position: relative;
   overflow: hidden;
 }
-
 .pillar::before {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 2px;
-  background: var(--moss);
+  background: rgba(200,230,255,0.5);
   transform: scaleX(0);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
   transform-origin: left;
 }
-
-.pillar:hover { background: rgba(44,74,46,0.12); }
+.pillar:hover { background: rgba(42,95,168,0.5); }
 .pillar:hover::before { transform: scaleX(1); }
-
-.pillar-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  color: rgba(143,175,126,0.4);
-  margin-bottom: 3rem;
-  font-weight: 300;
-}
-
+.pillar-num { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: rgba(200,220,255,0.3); margin-bottom: 3rem; font-weight: 300; }
 .pillar-icon-wrap {
   width: 48px; height: 48px;
-  border: 1px solid rgba(143,175,126,0.2);
+  border: 1px solid rgba(200,220,255,0.2);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   margin-bottom: 2rem;
 }
+.pillar-icon-wrap svg { width: 20px; height: 20px; stroke: rgba(200,230,255,0.7); fill: none; stroke-width: 1.5; }
+.pillar-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--parchment); line-height: 1.3; margin-bottom: 1rem; }
+.pillar-desc { font-size: 0.85rem; line-height: 1.8; color: rgba(200,220,255,0.5); font-weight: 300; }
 
-.pillar-icon-wrap svg { width: 20px; height: 20px; stroke: var(--fern); fill: none; stroke-width: 1.5; }
-
-.pillar-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--parchment);
-  line-height: 1.3;
-  margin-bottom: 1rem;
+/* IMPACT */
+.impact {
+  background: var(--mist);
+  padding: 8rem 5vw;
+  position: relative;
+  overflow: hidden;
 }
-
-.pillar-desc {
-  font-size: 0.85rem;
-  line-height: 1.8;
-  color: rgba(244,240,232,0.45);
+.impact-inner { max-width: 1400px; margin: 0 auto; }
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-top: 5rem;
+  border: 1px solid rgba(44,74,46,0.12);
+}
+.impact-cell {
+  padding: 3.5rem 3rem;
+  border-right: 1px solid rgba(44,74,46,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.impact-cell:last-child { border-right: none; }
+.impact-cell::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--moss), var(--sage));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+.impact-cell:hover::after { transform: scaleX(1); }
+.impact-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 4vw, 4.5rem);
   font-weight: 300;
+  color: var(--moss);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.impact-label {
+  font-size: 0.82rem;
+  color: var(--stone);
+  line-height: 1.6;
+  margin-top: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 /* PROGRAMS */
-.programs {
-  padding: 10rem 5vw;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.programs-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: end;
-  margin-bottom: 6rem;
-}
-
+.programs { padding: 10rem 5vw; max-width: 1400px; margin: 0 auto; }
+.programs-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 6rem; }
 .programs-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.5rem, 4.5vw, 4.5rem);
@@ -532,20 +628,9 @@ nav.scrolled {
   color: var(--ink);
   margin-top: 1rem;
 }
-
 .programs-title em { color: var(--sage); font-style: italic; }
-
-.programs-intro {
-  font-size: 1rem;
-  line-height: 1.85;
-  color: var(--stone);
-  font-weight: 300;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(44,74,46,0.15);
-}
-
+.programs-intro { font-size: 1rem; line-height: 1.85; color: var(--stone); font-weight: 300; padding-top: 1rem; border-top: 1px solid rgba(44,74,46,0.15); }
 .programs-list { display: flex; flex-direction: column; }
-
 .program-row {
   display: grid;
   grid-template-columns: 80px 1fr auto;
@@ -559,7 +644,6 @@ nav.scrolled {
   text-decoration: none;
   color: inherit;
 }
-
 .program-row::after {
   content: '';
   position: absolute;
@@ -570,129 +654,166 @@ nav.scrolled {
   z-index: -1;
   border-radius: 4px;
 }
-
 .program-row:hover { padding-left: 1.5rem; padding-right: 1.5rem; }
 .program-row:hover::after { opacity: 1; }
-
-.program-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  color: var(--fern);
-  font-weight: 300;
-}
-
-.program-info {}
-
-.program-tag-small {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--sage);
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-}
-
-.program-title-row {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.25;
-}
-
-.program-desc-row {
-  font-size: 0.88rem;
-  color: var(--stone);
-  font-weight: 300;
-  margin-top: 0.4rem;
-  line-height: 1.65;
-}
-
+.program-num { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--fern); font-weight: 300; }
+.program-tag-small { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 0.4rem; }
+.program-title-row { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--ink); line-height: 1.25; }
+.program-desc-row { font-size: 0.88rem; color: var(--stone); font-weight: 300; margin-top: 0.4rem; line-height: 1.65; }
 .program-arrow {
   width: 44px; height: 44px;
   border: 1px solid rgba(44,74,46,0.2);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
   transition: background 0.3s, border-color 0.3s;
 }
-
-.program-row:hover .program-arrow {
-  background: var(--moss);
-  border-color: var(--moss);
-}
-
+.program-row:hover .program-arrow { background: var(--moss); border-color: var(--moss); }
 .program-row:hover .program-arrow svg { stroke: var(--paper); }
-
 .program-arrow svg { width: 16px; height: 16px; stroke: var(--stone); fill: none; stroke-width: 1.5; transition: stroke 0.3s; }
 
-/* IMPACT */
-.impact {
-  background: var(--mist);
+/* ─── LOCATION ─── */
+.location-section {
+  background: var(--ink);
   padding: 8rem 5vw;
   position: relative;
   overflow: hidden;
 }
+.location-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+.location-text .section-label.light { margin-bottom: 1.5rem; }
+.location-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 300;
+  color: var(--parchment);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.location-title em { color: var(--fern); font-style: italic; }
+.location-body { font-size: 0.98rem; line-height: 1.85; color: rgba(244,240,232,0.5); font-weight: 300; margin-bottom: 2.5rem; }
+.location-points { display: flex; flex-direction: column; gap: 1.25rem; }
+.location-point {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  border: 1px solid rgba(143,175,126,0.15);
+  border-left: 3px solid var(--moss);
+  background: rgba(44,74,46,0.08);
+}
+.lp-icon { font-size: 1.2rem; }
+.lp-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--fern); font-weight: 500; }
+.lp-val { font-size: 0.95rem; color: var(--parchment); font-weight: 400; margin-top: 0.15rem; }
 
-.impact-inner {
+/* Map visual */
+.map-visual {
+  background: #0D2010;
+  border: 1px solid rgba(143,175,126,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-visual svg {
+  width: 100%;
+  height: 420px;
+}
+
+/* ─── TEAM ─── */
+.team {
+  padding: 10rem 5vw;
   max-width: 1400px;
   margin: 0 auto;
 }
-
-.impact-grid {
+.team-header { margin-bottom: 5rem; }
+.team-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-top: 1rem;
+}
+.team-title em { color: var(--sage); font-style: italic; }
+.team-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  margin-top: 5rem;
-  border: 1px solid rgba(44,74,46,0.12);
+  gap: 2rem;
 }
-
-.impact-cell {
-  padding: 3.5rem 3rem;
-  border-right: 1px solid rgba(44,74,46,0.12);
+.team-card {
   position: relative;
   overflow: hidden;
+  cursor: default;
 }
-
-.impact-cell:last-child { border-right: none; }
-
-.impact-cell::after {
-  content: '';
+.team-avatar {
+  width: 100%;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+  background: var(--mist);
+  border-radius: 4px;
+}
+.avatar-illustration {
+  width: 100%;
+  height: 100%;
+}
+.team-overlay {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(to right, var(--moss), var(--sage));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  inset: 0;
+  background: linear-gradient(to top, rgba(13,18,8,0.9) 0%, rgba(13,18,8,0.1) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
 }
-
-.impact-cell:hover::after { transform: scaleX(1); }
-
-.impact-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 4vw, 4.5rem);
-  font-weight: 300;
-  color: var(--moss);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.impact-label {
+.team-card:hover .team-overlay { opacity: 1; }
+.team-bio {
   font-size: 0.82rem;
-  color: var(--stone);
-  line-height: 1.6;
-  margin-top: 1rem;
+  line-height: 1.65;
+  color: rgba(244,240,232,0.75);
+  font-weight: 300;
+}
+.team-info { padding: 1.25rem 0 0; }
+.team-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
   font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+.team-role {
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+  font-weight: 500;
+}
+.team-divider {
+  width: 32px; height: 1px;
+  background: var(--fern);
+  margin: 0.75rem 0;
 }
 
 /* DONATE */
 .donate {
   padding: 10rem 5vw;
+  background: var(--mist);
+}
+.donate-inner {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
@@ -700,9 +821,6 @@ nav.scrolled {
   gap: 8rem;
   align-items: center;
 }
-
-.donate-left .section-label { margin-bottom: 1.5rem; }
-
 .donate-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2.5rem, 4vw, 4rem);
@@ -711,425 +829,111 @@ nav.scrolled {
   color: var(--ink);
   letter-spacing: -0.02em;
   margin-bottom: 2rem;
+  margin-top: 1.5rem;
 }
-
 .donate-title em { color: var(--sage); font-style: italic; }
-
-.donate-body {
-  font-size: 0.98rem;
-  line-height: 1.85;
-  color: var(--stone);
-  font-weight: 300;
-  margin-bottom: 3rem;
-}
-
-.donate-tiers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 2.5rem;
-}
-
+.donate-body { font-size: 0.98rem; line-height: 1.85; color: var(--stone); font-weight: 300; margin-bottom: 3rem; }
+.donate-tiers { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem; }
 .tier {
   padding: 0.65rem 1.5rem;
   border: 1px solid rgba(44,74,46,0.25);
   border-radius: 2px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--stone);
-  background: transparent;
+  font-size: 0.85rem; font-weight: 500;
+  color: var(--stone); background: transparent;
   cursor: pointer;
   font-family: 'Outfit', sans-serif;
   letter-spacing: 0.04em;
   transition: all 0.2s;
 }
-
-.tier.active, .tier:hover {
-  background: var(--moss);
-  border-color: var(--moss);
-  color: var(--paper);
-}
-
-.donate-note {
-  font-size: 0.8rem;
-  color: var(--stone);
-  opacity: 0.6;
-  font-weight: 300;
-}
-
-.donate-right {}
-
-.donate-form {
-  background: var(--parchment);
-  border: 1px solid rgba(44,74,46,0.1);
-  padding: 3.5rem;
-}
-
-.donate-form-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--ink);
-  margin-bottom: 2.5rem;
-}
-
+.tier.active, .tier:hover { background: var(--moss); border-color: var(--moss); color: var(--paper); }
+.donate-note { font-size: 0.8rem; color: var(--stone); opacity: 0.6; font-weight: 300; }
+.donate-form { background: var(--paper); border: 1px solid rgba(44,74,46,0.1); padding: 3.5rem; }
+.donate-form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 2.5rem; }
 .field { margin-bottom: 1.5rem; }
-
-label {
-  display: block;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--stone);
-  font-weight: 500;
-  margin-bottom: 0.6rem;
-}
-
+label { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--stone); font-weight: 500; margin-bottom: 0.6rem; }
 input, select, textarea {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  background: var(--paper);
+  width: 100%; padding: 0.9rem 1rem;
+  background: var(--parchment);
   border: 1px solid rgba(44,74,46,0.15);
   color: var(--ink);
   font-family: 'Outfit', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 300;
+  font-size: 0.95rem; font-weight: 300;
   outline: none;
   transition: border-color 0.2s;
   border-radius: 0;
   -webkit-appearance: none;
 }
-
 input:focus, select:focus, textarea:focus { border-color: var(--moss); }
 textarea { resize: vertical; }
-
 .submit-btn {
-  width: 100%;
-  background: var(--moss);
-  color: var(--paper);
-  border: none;
-  padding: 1.1rem;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.25s;
-  border-radius: 0;
-  margin-top: 0.5rem;
+  width: 100%; background: var(--moss); color: var(--paper); border: none;
+  padding: 1.1rem; font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.25s; border-radius: 0; margin-top: 0.5rem;
 }
-
 .submit-btn:hover { background: var(--ink); }
+.form-footnote { font-size: 0.75rem; color: var(--stone); opacity: 0.5; text-align: center; margin-top: 1.2rem; font-weight: 300; }
 
-.form-footnote {
-  font-size: 0.75rem;
-  color: var(--stone);
-  opacity: 0.5;
-  text-align: center;
-  margin-top: 1.2rem;
-  font-weight: 300;
-}
-
-/* BLOG */
-.stories {
-  background: var(--ink);
-  padding: 10rem 5vw;
-  position: relative;
-  overflow: hidden;
-}
-
+/* STORIES */
+.stories { background: var(--ink); padding: 10rem 5vw; position: relative; overflow: hidden; }
 .stories-inner { max-width: 1400px; margin: 0 auto; }
-
-.stories-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 5rem;
-}
-
-.stories-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 5vw, 5rem);
-  font-weight: 300;
-  color: var(--parchment);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-top: 1rem;
-}
-
+.stories-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem; }
+.stories-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 5rem); font-weight: 300; color: var(--parchment); line-height: 1.1; letter-spacing: -0.02em; margin-top: 1rem; }
 .stories-title em { color: var(--fern); font-style: italic; }
-
-.all-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--fern);
-  text-decoration: none;
-  font-size: 0.82rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 500;
-  transition: gap 0.3s;
-  padding-bottom: 0.5rem;
-}
-
+.all-link { display: flex; align-items: center; gap: 0.75rem; color: var(--fern); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; transition: gap 0.3s; padding-bottom: 0.5rem; }
 .all-link:hover { gap: 1.25rem; }
 .all-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-
-.stories-grid {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
-  gap: 1.5px;
-  background: rgba(255,255,255,0.04);
-}
-
+.stories-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 1.5px; background: rgba(255,255,255,0.04); }
 .story-card {
-  background: var(--ink);
-  padding: 2.5rem;
-  transition: background 0.3s;
-  cursor: pointer;
+  background: var(--ink); padding: 2.5rem;
+  transition: background 0.3s; cursor: pointer;
   border: 1px solid rgba(255,255,255,0.04);
-  position: relative;
-  overflow: hidden;
+  position: relative; overflow: hidden;
 }
-
-.story-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(44,74,46,0.1);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.story-card:hover { background: rgba(44,74,46,0.08); }
-.story-card:hover::before { opacity: 1; }
-
+.story-card:hover { background: rgba(44,74,46,0.1); }
 .story-card.featured { padding: 3rem; }
-
-.story-meta {
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fern);
-  font-weight: 500;
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
+.story-meta { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fern); font-weight: 500; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 1rem; }
 .story-meta span { color: rgba(143,175,126,0.4); }
-
-.story-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 400;
-  color: var(--parchment);
-  line-height: 1.35;
-  margin-bottom: 1.25rem;
-}
-
+.story-title { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--parchment); line-height: 1.35; margin-bottom: 1.25rem; }
 .featured .story-title { font-size: 2rem; }
 .story-card:not(.featured) .story-title { font-size: 1.25rem; }
-
-.story-excerpt {
-  font-size: 0.88rem;
-  color: rgba(244,240,232,0.45);
-  line-height: 1.75;
-  font-weight: 300;
-}
-
-.story-read {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--fern);
-  font-weight: 500;
-  text-decoration: none;
-  transition: gap 0.3s;
-}
-
+.story-excerpt { font-size: 0.88rem; color: rgba(244,240,232,0.45); line-height: 1.75; font-weight: 300; }
+.story-read { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 2rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fern); font-weight: 500; text-decoration: none; transition: gap 0.3s; }
 .story-read:hover { gap: 0.9rem; }
 .story-read svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
 
 /* CONTACT */
-.contact {
-  padding: 10rem 5vw;
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8rem;
-  align-items: start;
-}
-
-.contact-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.5rem, 4vw, 4rem);
-  font-weight: 300;
-  line-height: 1.15;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  margin: 1.5rem 0 2rem;
-}
-
+.contact { padding: 10rem 5vw; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8rem; align-items: start; }
+.contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 300; line-height: 1.15; color: var(--ink); letter-spacing: -0.02em; margin: 1.5rem 0 2rem; }
 .contact-title em { color: var(--sage); font-style: italic; }
-
-.contact-body {
-  font-size: 0.98rem;
-  line-height: 1.85;
-  color: var(--stone);
-  font-weight: 300;
-  margin-bottom: 3rem;
-}
-
+.contact-body { font-size: 0.98rem; line-height: 1.85; color: var(--stone); font-weight: 300; margin-bottom: 3rem; }
 .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
-
-.contact-line {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(44,74,46,0.1);
-}
-
+.contact-line { display: flex; align-items: flex-start; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(44,74,46,0.1); }
 .contact-line:last-child { border-bottom: none; }
-
-.contact-line-icon {
-  width: 36px; height: 36px;
-  border: 1px solid rgba(44,74,46,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
+.contact-line-icon { width: 36px; height: 36px; border: 1px solid rgba(44,74,46,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .contact-line-icon svg { width: 14px; height: 14px; stroke: var(--moss); fill: none; stroke-width: 1.5; }
-
-.contact-line-text {}
-
-.contact-line-key {
-  font-size: 0.68rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--sage);
-  font-weight: 500;
-  margin-bottom: 0.2rem;
-}
-
-.contact-line-val {
-  font-size: 0.95rem;
-  color: var(--ink);
-  font-weight: 400;
-}
-
-.contact-right {}
-
-.contact-form {
-  background: var(--parchment);
-  border: 1px solid rgba(44,74,46,0.1);
-  padding: 3.5rem;
-}
+.contact-line-key { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--sage); font-weight: 500; margin-bottom: 0.2rem; }
+.contact-line-val { font-size: 0.95rem; color: var(--ink); font-weight: 400; }
+.contact-form { background: var(--parchment); border: 1px solid rgba(44,74,46,0.1); padding: 3.5rem; }
 
 /* FOOTER */
-footer {
-  background: var(--charcoal);
-  padding: 6rem 5vw 3rem;
-}
-
-.footer-top {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 4rem;
-  padding-bottom: 4rem;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--parchment);
-  margin-bottom: 1.25rem;
-}
-
+footer { background: var(--charcoal); padding: 6rem 5vw 3rem; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.06); max-width: 1400px; margin: 0 auto; }
+.footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--parchment); margin-bottom: 1.25rem; }
 .footer-brand em { color: var(--fern); font-style: italic; }
-
-.footer-tagline {
-  font-size: 0.88rem;
-  line-height: 1.75;
-  color: rgba(244,240,232,0.35);
-  font-weight: 300;
-  max-width: 280px;
-}
-
-.footer-col-head {
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fern);
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-}
-
-.footer-col-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-
-.footer-col-links a {
-  text-decoration: none;
-  color: rgba(244,240,232,0.4);
-  font-size: 0.88rem;
-  font-weight: 300;
-  transition: color 0.2s;
-}
-
+.footer-tagline { font-size: 0.88rem; line-height: 1.75; color: rgba(244,240,232,0.35); font-weight: 300; max-width: 280px; }
+.footer-col-head { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fern); font-weight: 500; margin-bottom: 1.5rem; }
+.footer-col-links { list-style: none; display: flex; flex-direction: column; gap: 0.9rem; }
+.footer-col-links a { text-decoration: none; color: rgba(244,240,232,0.4); font-size: 0.88rem; font-weight: 300; transition: color 0.2s; }
 .footer-col-links a:hover { color: var(--parchment); }
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 2.5rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  font-size: 0.78rem;
-  color: rgba(244,240,232,0.2);
-  font-weight: 300;
-}
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2.5rem; max-width: 1400px; margin: 0 auto; font-size: 0.78rem; color: rgba(244,240,232,0.2); font-weight: 300; }
 
 /* ANIMATIONS */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
@@ -1137,37 +941,29 @@ footer {
 
 /* RESPONSIVE */
 @media (max-width: 1024px) {
-  .hero-bottom { grid-template-columns: 1fr; }
-  .hero-stats { justify-content: flex-start; }
-  .manifesto { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-bottom, .manifesto, .programs-header, .donate-inner, .location-inner, .contact { grid-template-columns: 1fr; gap: 3rem; }
   .manifesto-label { position: static; }
-  .pillars-grid { grid-template-columns: 1fr 1fr; }
-  .programs-header { grid-template-columns: 1fr; }
+  .pillars-grid, .thematic-grid, .team-grid { grid-template-columns: 1fr 1fr; }
   .impact-grid { grid-template-columns: 1fr 1fr; }
   .impact-cell:nth-child(2) { border-right: none; }
   .impact-cell:nth-child(3) { border-right: 1px solid rgba(44,74,46,0.12); }
-  .donate { grid-template-columns: 1fr; gap: 4rem; }
   .stories-grid { grid-template-columns: 1fr; }
-  .contact { grid-template-columns: 1fr; gap: 4rem; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .hero-stats { justify-content: flex-start; }
 }
-
 @media (max-width: 768px) {
-  nav { padding: 0 5vw; }
   .nav-links { display: none; }
   .hero-title { font-size: 3.5rem; }
-  .pillars-grid { grid-template-columns: 1fr; }
+  .pillars-grid, .thematic-grid, .team-grid { grid-template-columns: 1fr; }
   .impact-grid { grid-template-columns: 1fr; }
-  .impact-cell { border-right: none; border-bottom: 1px solid rgba(44,74,46,0.12); }
-  .donate-form { padding: 2rem; }
-  .contact-form { padding: 2rem; }
+  .impact-cell { border-right: none !important; border-bottom: 1px solid rgba(44,74,46,0.12); }
+  .donate-form, .contact-form { padding: 2rem; }
   .footer-top { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -1175,17 +971,16 @@ footer {
 <nav id="nav">
   <a href="#" class="logo">
     <div class="logo-mark">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 3C12 3 5 8 5 14a7 7 0 0014 0C19 8 12 3 12 3z" stroke="#2C4A2E" stroke-width="1.5" stroke-linejoin="round"/>
-        <line x1="12" y1="14" x2="12" y2="21" stroke="#2C4A2E" stroke-width="1.5"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 3C12 3 5 8 5 14a7 7 0 0014 0C19 8 12 3 12 3z" stroke="#8FAF7E" stroke-width="1.5" stroke-linejoin="round"/><line x1="12" y1="14" x2="12" y2="21" stroke="#8FAF7E" stroke-width="1.5"/></svg>
     </div>
     Earth Fallow Alliance
   </a>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#mission">Mission</a></li>
+      <li><a href="#thematic">Focus Areas</a></li>
       <li><a href="#programs">Programs</a></li>
+      <li><a href="#team">Team</a></li>
       <li><a href="#stories">Stories</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -1193,12 +988,158 @@ footer {
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════════════════════════════════════
+     HERO — FOREST BACKGROUND (SVG)
+═══════════════════════════════════════ -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="orb-1 hero-orb"></div>
-  <div class="orb-2 hero-orb"></div>
-  <div class="orb-3 hero-orb"></div>
+  <div class="hero-sky"></div>
+  <div class="hero-glow"></div>
+
+  <!-- FOREST SVG ILLUSTRATION -->
+  <svg class="forest-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- Sky gradient -->
+    <defs>
+      <radialGradient id="sunGlow" cx="50%" cy="30%" r="40%">
+        <stop offset="0%" stop-color="#2A5F1A" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#071006" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="treeDark" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0C2A0E"/>
+        <stop offset="100%" stop-color="#071006"/>
+      </linearGradient>
+      <linearGradient id="treeMid" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1A4020"/>
+        <stop offset="100%" stop-color="#0C2A0E"/>
+      </linearGradient>
+      <linearGradient id="treeLight" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2C5E35"/>
+        <stop offset="100%" stop-color="#1A4020"/>
+      </linearGradient>
+      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0A1F0A"/>
+        <stop offset="100%" stop-color="#030A03"/>
+      </linearGradient>
+      <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+      <filter id="blur5"><feGaussianBlur stdDeviation="5"/></filter>
+      <filter id="blur10"><feGaussianBlur stdDeviation="10"/></filter>
+    </defs>
+
+    <!-- Background glow -->
+    <ellipse cx="720" cy="200" rx="500" ry="300" fill="url(#sunGlow)"/>
+    <!-- Moon/light orb -->
+    <circle cx="720" cy="120" r="60" fill="#1D4A25" opacity="0.3" filter="url(#blur10)"/>
+    <circle cx="720" cy="120" r="30" fill="#2C5E35" opacity="0.25" filter="url(#blur5)"/>
+
+    <!-- LAYER 1 — distant trees (darkest, blurred) -->
+    <!-- Broad canopy shapes far back -->
+    <g opacity="0.45" filter="url(#blur2)">
+      <!-- Left cluster -->
+      <ellipse cx="80" cy="480" rx="90" ry="220" fill="#0C2A0E"/>
+      <ellipse cx="160" cy="460" rx="75" ry="200" fill="#0E3010"/>
+      <ellipse cx="230" cy="500" rx="65" ry="180" fill="#0C2A0E"/>
+      <!-- right cluster -->
+      <ellipse cx="1360" cy="480" rx="90" ry="220" fill="#0C2A0E"/>
+      <ellipse cx="1280" cy="460" rx="75" ry="200" fill="#0E3010"/>
+      <ellipse cx="1200" cy="500" rx="65" ry="180" fill="#0C2A0E"/>
+      <!-- center back -->
+      <ellipse cx="500" cy="520" rx="60" ry="160" fill="#0C2A0E"/>
+      <ellipse cx="620" cy="510" rx="55" ry="170" fill="#0E3010"/>
+      <ellipse cx="820" cy="505" rx="60" ry="165" fill="#0C2A0E"/>
+      <ellipse cx="940" cy="515" rx="55" ry="158" fill="#0E3010"/>
+    </g>
+
+    <!-- LAYER 2 — mid trees -->
+    <g opacity="0.65">
+      <!-- Pine shapes mid-left -->
+      <polygon points="120,650 160,380 200,650" fill="#142E18"/>
+      <polygon points="135,650 175,420 215,650" fill="#1A3C1E"/>
+      <polygon points="200,650 250,390 300,650" fill="#152F19"/>
+
+      <!-- Pine shapes mid-right -->
+      <polygon points="1240,650 1280,380 1320,650" fill="#142E18"/>
+      <polygon points="1220,650 1265,420 1310,650" fill="#1A3C1E"/>
+      <polygon points="1140,650 1190,390 1240,650" fill="#152F19"/>
+
+      <!-- Broad leafy trees center-mid -->
+      <ellipse cx="400" cy="520" rx="100" ry="200" fill="#163520"/>
+      <rect x="390" y="650" width="20" height="120" fill="#0C1E0F"/>
+      <ellipse cx="550" cy="500" rx="80" ry="185" fill="#1A3E22"/>
+      <rect x="542" y="650" width="16" height="130" fill="#0C1E0F"/>
+      <ellipse cx="900" cy="510" rx="85" ry="190" fill="#163520"/>
+      <rect x="893" y="660" width="14" height="100" fill="#0C1E0F"/>
+      <ellipse cx="1050" cy="520" rx="90" ry="195" fill="#1A3E22"/>
+      <rect x="1041" y="665" width="18" height="90" fill="#0C1E0F"/>
+    </g>
+
+    <!-- LAYER 3 — foreground tall trees -->
+    <g opacity="0.9">
+      <!-- Far left tall pine -->
+      <polygon points="-20,900 70,250 160,900" fill="#0E2410"/>
+      <polygon points="10,900 70,300 130,900" fill="#122A14"/>
+      <!-- Secondary left -->
+      <polygon points="250,900 320,320 390,900" fill="#0F2612"/>
+      <!-- Left canopy tree -->
+      <ellipse cx="180" cy="550" rx="130" ry="300" fill="#112A14"/>
+      <rect x="166" y="770" width="28" height="130" fill="#071006"/>
+
+      <!-- Far right tall pine -->
+      <polygon points="1280,900 1370,250 1460,900" fill="#0E2410"/>
+      <polygon points="1310,900 1370,300 1430,900" fill="#122A14"/>
+      <!-- Secondary right -->
+      <polygon points="1050,900 1120,320 1190,900" fill="#0F2612"/>
+      <!-- Right canopy tree -->
+      <ellipse cx="1260" cy="550" rx="130" ry="300" fill="#112A14"/>
+      <rect x="1246" y="770" width="28" height="130" fill="#071006"/>
+
+      <!-- Center tall pines (flanking the hero text area) -->
+      <polygon points="580,900 640,280 700,900" fill="#0D2210"/>
+      <polygon points="600,900 640,320 680,900" fill="#112812"/>
+      <polygon points="740,900 800,300 860,900" fill="#0D2210"/>
+      <polygon points="760,900 800,340 840,900" fill="#11281200"/>
+    </g>
+
+    <!-- Biodiversity: Ferns & undergrowth -->
+    <g opacity="0.7">
+      <!-- Left fern clusters -->
+      <ellipse cx="50" cy="820" rx="80" ry="25" fill="#112810"/>
+      <ellipse cx="150" cy="830" rx="60" ry="20" fill="#152C14"/>
+      <ellipse cx="320" cy="840" rx="70" ry="22" fill="#0F2610"/>
+      <!-- Right fern clusters -->
+      <ellipse cx="1390" cy="820" rx="80" ry="25" fill="#112810"/>
+      <ellipse cx="1290" cy="830" rx="60" ry="20" fill="#152C14"/>
+      <ellipse cx="1120" cy="840" rx="70" ry="22" fill="#0F2610"/>
+      <!-- Center undergrowth -->
+      <ellipse cx="500" cy="855" rx="90" ry="28" fill="#112810"/>
+      <ellipse cx="720" cy="860" rx="110" ry="30" fill="#0F2610"/>
+      <ellipse cx="950" cy="855" rx="90" ry="28" fill="#112810"/>
+    </g>
+
+    <!-- Biodiversity: birds silhouettes in the canopy -->
+    <g fill="#0A1D0C" opacity="0.6">
+      <path d="M350 340 Q355 335 360 340 Q365 335 370 340" stroke="#0A1D0C" stroke-width="1.5" fill="none"/>
+      <path d="M680 310 Q685 305 690 310 Q695 305 700 310" stroke="#0A1D0C" stroke-width="1.5" fill="none"/>
+      <path d="M1000 350 Q1005 345 1010 350 Q1015 345 1020 350" stroke="#0A1D0C" stroke-width="1.5" fill="none"/>
+    </g>
+
+    <!-- Ground -->
+    <rect x="0" y="860" width="1440" height="40" fill="url(#groundGrad)"/>
+
+    <!-- Mist bands -->
+    <rect x="0" y="720" width="1440" height="80" fill="rgba(180,220,160,0.04)" filter="url(#blur5)"/>
+    <rect x="0" y="780" width="1440" height="60" fill="rgba(180,220,160,0.06)" filter="url(#blur2)"/>
+
+    <!-- Subtle vine/creeper left -->
+    <path d="M0 400 Q30 380 10 350 Q-10 320 20 300 Q50 280 30 250" stroke="#1A3A1E" stroke-width="3" fill="none" opacity="0.4"/>
+    <!-- Subtle vine right -->
+    <path d="M1440 400 Q1410 380 1430 350 Q1450 320 1420 300 Q1390 280 1410 250" stroke="#1A3A1E" stroke-width="3" fill="none" opacity="0.4"/>
+  </svg>
+
+  <!-- Firefly particles -->
+  <div class="fireflies" id="fireflies"></div>
+
+  <!-- Mist layers -->
+  <div class="mist-layer mist-1"></div>
+  <div class="mist-layer mist-2"></div>
 
   <div class="hero-content">
     <p class="hero-eyebrow">Earth Fallow Alliance · Est. 2019 · Accra, Ghana</p>
@@ -1208,9 +1149,7 @@ footer {
       again.
     </h1>
     <div class="hero-bottom">
-      <p class="hero-sub">
-        We restore what was taken, defend what remains, and build communities that know how to give back to the earth they depend on.
-      </p>
+      <p class="hero-sub">We restore what was taken, defend what remains, and build communities that know how to give back to the earth they depend on.</p>
       <div class="hero-stats">
         <div class="hero-stat">
           <div class="hero-stat-num">12,400</div>
@@ -1227,7 +1166,6 @@ footer {
       </div>
     </div>
   </div>
-
   <div class="scroll-indicator">
     <div class="scroll-line"></div>
     <span>Scroll</span>
@@ -1237,81 +1175,124 @@ footer {
 <!-- MARQUEE -->
 <div class="marquee-band" aria-hidden="true">
   <div class="marquee-track">
-    <span class="marquee-item"><span class="marquee-dot"></span> Reforestation</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Land Restoration</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Climate Advocacy</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Environmental Education</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Circular Economy</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Community Action</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Reforestation</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Land Restoration</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Climate Advocacy</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Environmental Education</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Circular Economy</span>
-    <span class="marquee-item"><span class="marquee-dot"></span> Community Action</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Reforestation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Land Restoration</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Climate Advocacy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Environmental Education</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Circular Economy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Community Action</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Biodiversity</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Reforestation</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Land Restoration</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Climate Advocacy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Environmental Education</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Circular Economy</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Community Action</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Biodiversity</span>
   </div>
 </div>
 
 <!-- MANIFESTO / MISSION -->
-<section id="mission" class="manifesto">
-  <div class="manifesto-label dark reveal">Who we are</div>
-  <div>
-    <div class="manifesto-body reveal reveal-delay-1">
-      Fallow land is not wasteland.<br>
-      It is land <em>resting</em> — recovering,<br>
-      holding memory, waiting.<br><br>
-      We believe <strong>every degraded acre</strong><br>
-      still knows what it once was.
-    </div>
-    <div class="manifesto-footnote reveal reveal-delay-2">
-      Earth Fallow Alliance works at the intersection of ecology and people. We plant trees where forests once stood, carry rural voices into policy rooms that rarely hear them, rethink how communities handle what they discard, and give young people the tools to think like stewards — not just consumers.
+<section id="mission" style="max-width:1400px;margin:0 auto;">
+  <div class="manifesto">
+    <div class="manifesto-label dark reveal">Who we are</div>
+    <div>
+      <div class="manifesto-body reveal reveal-delay-1">
+        Fallow land is not wasteland.<br>
+        It is land <em>resting</em> — recovering,<br>
+        holding memory, waiting.<br><br>
+        We believe <strong>every degraded acre</strong><br>
+        still knows what it once was.
+      </div>
+      <div class="manifesto-footnote reveal reveal-delay-2">
+        Earth Fallow Alliance works at the intersection of ecology and people. We plant trees where forests once stood, carry rural voices into policy rooms that rarely hear them, rethink how communities handle what they discard, and give young people the tools to think like stewards — not just consumers.
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PILLARS -->
-<section class="pillars">
-  <div style="max-width: 1400px; margin: 0 auto;">
-    <div class="pillars-header">
-      <div>
-        <div class="section-label light reveal">Our four pillars</div>
-        <h2 class="pillars-title reveal reveal-delay-1">What we<br><em>stand for.</em></h2>
-      </div>
-      <div class="pillars-count reveal reveal-delay-2">04</div>
+<!-- ═══ THEMATIC AREAS ═══ -->
+<section id="thematic" class="thematic">
+  <div class="thematic-inner">
+    <div class="thematic-header">
+      <div class="section-label blue reveal">Thematic Areas</div>
+      <h2 class="thematic-title reveal reveal-delay-1">Four lenses.<br><em>One mission.</em></h2>
+      <p class="thematic-subtitle reveal reveal-delay-2">Everything we do falls within one of these four interconnected thematic areas. Together, they form our whole approach to environmental renewal.</p>
     </div>
-    <div class="pillars-grid">
-      <div class="pillar reveal">
-        <div class="pillar-num">01</div>
-        <div class="pillar-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M12 2C12 2 4 9 4 15a8 8 0 0016 0C20 9 12 2 12 2z"/><line x1="12" y1="15" x2="12" y2="22"/></svg>
-        </div>
-        <div class="pillar-name">Reforestation &amp; Land Restoration</div>
-        <div class="pillar-desc">Returning degraded land to ecological life — through community-led planting, soil regeneration, and long-term stewardship.</div>
+    <div class="thematic-grid">
+      <div class="thematic-card reveal">
+        <div class="thematic-num">01</div>
+        <div class="thematic-icon">🌳</div>
+        <div class="thematic-name">Reforestation &amp; Land Restoration</div>
+        <p class="thematic-desc">We work with communities to restore degraded land through tree planting, soil regeneration, and long-term stewardship — returning ecological memory to places that have forgotten what they once were.</p>
+        <span class="thematic-tag">Active in 22 sites</span>
       </div>
-      <div class="pillar reveal reveal-delay-1">
-        <div class="pillar-num">02</div>
-        <div class="pillar-icon-wrap">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
-        </div>
-        <div class="pillar-name">Climate Advocacy &amp; Policy</div>
-        <div class="pillar-desc">Bringing community evidence into national and regional climate conversations. The people closest to the land should be closest to the table.</div>
+      <div class="thematic-card reveal reveal-delay-1">
+        <div class="thematic-num">02</div>
+        <div class="thematic-icon">📢</div>
+        <div class="thematic-name">Climate Advocacy &amp; Policy</div>
+        <p class="thematic-desc">We ensure that rural and indigenous voices reach national and regional policy tables. Through community evidence, briefs, and campaigns, we hold decision-makers accountable to the land and its people.</p>
+        <span class="thematic-tag">10 Policy engagements</span>
       </div>
-      <div class="pillar reveal reveal-delay-2">
-        <div class="pillar-num">03</div>
-        <div class="pillar-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M4 4h16v4l-8 8-8-8V4z"/><line x1="12" y1="16" x2="12" y2="22"/></svg>
-        </div>
-        <div class="pillar-name">Waste Reduction &amp; Circular Economy</div>
-        <div class="pillar-desc">Testing zero-waste systems in real markets and communities — composting networks, upcycling hubs, and producer accountability.</div>
+      <div class="thematic-card reveal reveal-delay-2">
+        <div class="thematic-num">03</div>
+        <div class="thematic-icon">♻️</div>
+        <div class="thematic-name">Waste Reduction &amp; Circular Economy</div>
+        <p class="thematic-desc">We pilot waste-free systems in real markets and communities — building composting networks, upcycling hubs, and producer accountability frameworks that reduce environmental burden at the source.</p>
+        <span class="thematic-tag">6 Community pilots</span>
       </div>
-      <div class="pillar reveal reveal-delay-3">
-        <div class="pillar-num">04</div>
-        <div class="pillar-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M2 20h20M6 20V10l6-7 6 7v10"/><line x1="10" y1="20" x2="10" y2="14"/><line x1="14" y1="20" x2="14" y2="14"/></svg>
-        </div>
-        <div class="pillar-name">Environmental Education &amp; Youth</div>
-        <div class="pillar-desc">A fellowship and ambassador programme for the next generation — building the environmental leaders this continent needs.</div>
+      <div class="thematic-card reveal reveal-delay-3">
+        <div class="thematic-num">04</div>
+        <div class="thematic-icon">🎓</div>
+        <div class="thematic-name">Environmental Education &amp; Youth</div>
+        <p class="thematic-desc">Through our fellowship, ambassador programme, and school partnerships, we equip the next generation with the knowledge, tools, and confidence to lead environmental stewardship in their own communities.</p>
+        <span class="thematic-tag">6,800 youth trained</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILLARS — now in BLUE ═══ -->
+<section class="pillars">
+  <div class="pillars-header">
+    <div>
+      <div class="section-label" style="color:rgba(200,220,255,0.6);">What we stand for</div>
+      <h2 class="pillars-title reveal reveal-delay-1">Principles we<br><em>never compromise.</em></h2>
+    </div>
+    <div class="pillars-count reveal reveal-delay-2">04</div>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar reveal">
+      <div class="pillar-num">01</div>
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2C12 2 4 9 4 15a8 8 0 0016 0C20 9 12 2 12 2z"/><line x1="12" y1="15" x2="12" y2="22"/></svg>
+      </div>
+      <div class="pillar-name">Community First, Always</div>
+      <p class="pillar-desc">We never design a programme without the people it serves. Every intervention is co-created. We arrive with questions, not blueprints.</p>
+    </div>
+    <div class="pillar reveal reveal-delay-1">
+      <div class="pillar-num">02</div>
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="pillar-name">Science-Led Action</div>
+      <p class="pillar-desc">Every initiative we run is grounded in ecological evidence. We measure, report, and adapt. Good intentions are not enough — outcomes matter.</p>
+    </div>
+    <div class="pillar reveal reveal-delay-2">
+      <div class="pillar-num">03</div>
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+      </div>
+      <div class="pillar-name">Independence &amp; Integrity</div>
+      <p class="pillar-desc">We are community-funded. No corporate interest shapes our work. Our accountability runs to the land and to the people who depend on it.</p>
+    </div>
+    <div class="pillar reveal reveal-delay-3">
+      <div class="pillar-num">04</div>
+      <div class="pillar-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div class="pillar-name">Long-Term Thinking</div>
+      <p class="pillar-desc">Forests take decades. So does real community change. We are not here for quick wins. We commit to slow, necessary, generational work.</p>
     </div>
   </div>
 </section>
@@ -1321,22 +1302,10 @@ footer {
   <div class="impact-inner">
     <div class="section-label dark reveal">Impact to date</div>
     <div class="impact-grid">
-      <div class="impact-cell reveal">
-        <div class="impact-num">12,400</div>
-        <div class="impact-label">Hectares of degraded land restored</div>
-      </div>
-      <div class="impact-cell reveal reveal-delay-1">
-        <div class="impact-num">34</div>
-        <div class="impact-label">Communities in our alliance network</div>
-      </div>
-      <div class="impact-cell reveal reveal-delay-2">
-        <div class="impact-num">1.2M</div>
-        <div class="impact-label">Tonnes of CO₂ sequestered</div>
-      </div>
-      <div class="impact-cell reveal reveal-delay-3">
-        <div class="impact-num">6,800</div>
-        <div class="impact-label">Youth trained in environmental stewardship</div>
-      </div>
+      <div class="impact-cell reveal"><div class="impact-num">12,400</div><div class="impact-label">Hectares of degraded land restored</div></div>
+      <div class="impact-cell reveal reveal-delay-1"><div class="impact-num">34</div><div class="impact-label">Communities in our alliance network</div></div>
+      <div class="impact-cell reveal reveal-delay-2"><div class="impact-num">1.2M</div><div class="impact-label">Tonnes of CO₂ sequestered</div></div>
+      <div class="impact-cell reveal reveal-delay-3"><div class="impact-num">6,800</div><div class="impact-label">Youth trained in environmental stewardship</div></div>
     </div>
   </div>
 </section>
@@ -1349,90 +1318,337 @@ footer {
         <div class="section-label dark reveal">Programs</div>
         <h2 class="programs-title reveal reveal-delay-1">Rooted in<br><em>real places.</em></h2>
       </div>
-      <p class="programs-intro reveal reveal-delay-2">
-        Every programme we run is co-designed with the communities it serves. We do not arrive with blueprints — we arrive with questions. Everything that follows is built from the answers.
-      </p>
+      <p class="programs-intro reveal reveal-delay-2">Every programme is co-designed with the communities it serves. We arrive with questions. Everything that follows is built from the answers.</p>
     </div>
     <div class="programs-list">
-      <a class="program-row reveal" href="#">
-        <div class="program-num">01</div>
-        <div class="program-info">
-          <div class="program-tag-small">Restoration</div>
-          <div class="program-title-row">The Fallow Fields Initiative</div>
-          <div class="program-desc-row">Community-led tree planting and soil regeneration in degraded agricultural zones. We train local planters, establish seed banks, and stay for the long run.</div>
+      <a class="program-row reveal" href="#"><div class="program-num">01</div><div class="program-info"><div class="program-tag-small">Restoration</div><div class="program-title-row">The Fallow Fields Initiative</div><div class="program-desc-row">Community-led tree planting and soil regeneration in degraded agricultural zones. We train local planters, establish seed banks, and stay for the long run.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+      <a class="program-row reveal" href="#"><div class="program-num">02</div><div class="program-info"><div class="program-tag-small">Advocacy</div><div class="program-title-row">The Community Climate Desk</div><div class="program-desc-row">Policy briefs, public campaigns, and direct community representation at national and regional environmental bodies.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+      <a class="program-row reveal" href="#"><div class="program-num">03</div><div class="program-info"><div class="program-tag-small">Circular Economy</div><div class="program-title-row">Zero-to-Landfill Pilots</div><div class="program-desc-row">Working with local markets and producers to test waste-free supply chains, composting networks, and upcycling hubs.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+      <a class="program-row reveal" href="#"><div class="program-num">04</div><div class="program-info"><div class="program-tag-small">Education</div><div class="program-title-row">Green Futures Fellowship</div><div class="program-desc-row">An annual fellowship for 18–25 year olds to design and implement a local environmental project with full mentorship and funding.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+      <a class="program-row reveal" href="#"><div class="program-num">05</div><div class="program-info"><div class="program-tag-small">Community</div><div class="program-title-row">Alliance Ambassadors</div><div class="program-desc-row">A volunteer network of local champions embedding environmental practice into markets, schools, and community gatherings.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+      <a class="program-row reveal" href="#"><div class="program-num">06</div><div class="program-info"><div class="program-tag-small">Research</div><div class="program-title-row">The Land Memory Project</div><div class="program-desc-row">Documenting ecological change at a hyper-local level — pairing universities with elders who remember what the land once looked like.</div></div><div class="program-arrow"><svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LOCATION ═══ -->
+<section class="location-section">
+  <div class="location-inner">
+    <div class="location-text">
+      <div class="section-label light reveal">Where we work</div>
+      <h2 class="location-title reveal reveal-delay-1">Rooted in<br><em>Nkawkaw.</em><br>Eastern Region, Ghana.</h2>
+      <p class="location-body reveal reveal-delay-2">We are based in Nkawkaw in the Eastern Region — a town that sits in the heart of Ghana's forest belt. It is the right place to do this work, and the right community to do it with.</p>
+      <div class="location-points reveal reveal-delay-3">
+        <div class="location-point">
+          <div class="lp-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--fern)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <div class="lp-label">Headquarters</div>
+            <div class="lp-val">Nkawkaw, Eastern Region, Ghana</div>
+          </div>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        <div class="location-point">
+          <div class="lp-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--fern)" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div class="lp-label">Postal Address</div>
+            <div class="lp-val">P.O. Box NJ 537, Nkawkaw</div>
+            <div class="lp-val" style="margin-top:2px;font-size:0.85rem;opacity:0.7;">Ghana Post GPS: EJ-0025-394</div>
+          </div>
         </div>
-      </a>
-      <a class="program-row reveal" href="#">
-        <div class="program-num">02</div>
-        <div class="program-info">
-          <div class="program-tag-small">Advocacy</div>
-          <div class="program-title-row">The Community Climate Desk</div>
-          <div class="program-desc-row">Policy briefs, public campaigns, and direct community representation at national and regional environmental bodies.</div>
+        <div class="location-point">
+          <div class="lp-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--fern)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          </div>
+          <div>
+            <div class="lp-label">Active Regions</div>
+            <div class="lp-val">Eastern Region · Ashanti · Volta · Bono East</div>
+          </div>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        <div class="location-point">
+          <div class="lp-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--fern)" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div>
+            <div class="lp-label">Community Reach</div>
+            <div class="lp-val">34 communities across Ghana's forest belt</div>
+          </div>
         </div>
-      </a>
-      <a class="program-row reveal" href="#">
-        <div class="program-num">03</div>
-        <div class="program-info">
-          <div class="program-tag-small">Circular Economy</div>
-          <div class="program-title-row">Zero-to-Landfill Pilots</div>
-          <div class="program-desc-row">Working with local markets and producers to test waste-free supply chains, composting networks, and upcycling hubs.</div>
+      </div>
+    </div>
+    <!-- Map: stylised West Africa SVG -->
+    <div class="map-visual reveal reveal-delay-2">
+      <svg viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#2C4A2E" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#071006" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="520" height="420" fill="#0D1A0E"/>
+        <ellipse cx="260" cy="210" rx="200" ry="180" fill="url(#mapGlow)"/>
+        <!-- Simplified West Africa outline -->
+        <path d="M80 80 Q130 60 200 70 Q260 65 310 80 Q360 90 390 130 Q420 165 410 210 Q400 250 370 280 Q340 310 300 330 Q260 350 220 340 Q180 330 150 300 Q120 270 100 230 Q80 195 75 155 Q70 115 80 80Z" fill="#1A3A1E" stroke="#2C5E35" stroke-width="1.5" opacity="0.8"/>
+        <!-- Internal borders (rough) -->
+        <path d="M200 70 Q210 140 195 210 Q185 280 180 330" stroke="#0D2A10" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M310 80 Q300 150 290 220 Q280 290 280 340" stroke="#0D2A10" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M80 160 Q200 165 310 160 Q380 160 410 165" stroke="#0D2A10" stroke-width="1" fill="none" opacity="0.5"/>
+        <!-- Ocean suggestion -->
+        <path d="M80 80 Q65 60 50 100 Q40 140 45 180 Q50 220 75 240" stroke="#112810" stroke-width="2" fill="none" opacity="0.4"/>
+
+        <!-- Nkawkaw dot — HQ (Eastern Region, Ghana) -->
+        <circle cx="248" cy="255" r="8" fill="#8FAF7E" opacity="0.9"/>
+        <circle cx="248" cy="255" r="16" fill="#8FAF7E" opacity="0.2">
+          <animate attributeName="r" values="10;22;10" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.25;0;0.25" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="262" y="251" fill="#C8D9B8" font-size="11" font-family="'Outfit', sans-serif" font-weight="500">Nkawkaw HQ</text>
+        <text x="262" y="264" fill="#8FAF7E" font-size="8" font-family="'Outfit', sans-serif" opacity="0.6">Eastern Region</text>
+
+        <!-- Kumasi -->
+        <circle cx="210" cy="250" r="5" fill="#5C7A4E" opacity="0.8"/>
+        <text x="222" y="247" fill="#7A9B70" font-size="9" font-family="'Outfit', sans-serif">Kumasi</text>
+
+        <!-- Tamale -->
+        <circle cx="220" cy="180" r="5" fill="#5C7A4E" opacity="0.8"/>
+        <text x="232" y="177" fill="#7A9B70" font-size="9" font-family="'Outfit', sans-serif">Tamale</text>
+
+        <!-- Monrovia -->
+        <circle cx="130" cy="260" r="5" fill="#5C7A4E" opacity="0.8"/>
+        <text x="100" y="255" fill="#7A9B70" font-size="9" font-family="'Outfit', sans-serif">Monrovia</text>
+
+        <!-- Ouagadougou -->
+        <circle cx="265" cy="165" r="4" fill="#4A6741" opacity="0.7"/>
+        <text x="272" y="162" fill="#5C7A4E" font-size="8" font-family="'Outfit', sans-serif">Ouagadougou</text>
+
+        <!-- Lomé -->
+        <circle cx="280" cy="270" r="4" fill="#4A6741" opacity="0.7"/>
+        <text x="288" y="267" fill="#5C7A4E" font-size="8" font-family="'Outfit', sans-serif">Lomé</text>
+
+        <!-- Grid lines -->
+        <line x1="0" y1="210" x2="520" y2="210" stroke="#1A3A1E" stroke-width="0.5" opacity="0.4"/>
+        <line x1="260" y1="0" x2="260" y2="420" stroke="#1A3A1E" stroke-width="0.5" opacity="0.4"/>
+
+        <!-- Compass rose -->
+        <g transform="translate(460,50)" opacity="0.5">
+          <circle cx="0" cy="0" r="18" stroke="#2C4A2E" stroke-width="1" fill="none"/>
+          <text x="0" y="-22" text-anchor="middle" fill="#8FAF7E" font-size="8" font-family="'Outfit',sans-serif">N</text>
+          <line x1="0" y1="-14" x2="0" y2="14" stroke="#2C4A2E" stroke-width="1"/>
+          <line x1="-14" y1="0" x2="14" y2="0" stroke="#2C4A2E" stroke-width="1"/>
+        </g>
+        <!-- Legend -->
+        <g transform="translate(20,370)">
+          <circle cx="0" cy="0" r="5" fill="#8FAF7E"/>
+          <text x="12" y="4" fill="#5C7A4E" font-size="9" font-family="'Outfit',sans-serif">HQ / Main office</text>
+          <circle cx="120" cy="0" r="4" fill="#5C7A4E"/>
+          <text x="132" y="4" fill="#5C7A4E" font-size="9" font-family="'Outfit',sans-serif">Field office</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEAM ═══ -->
+<section id="team">
+  <div class="team">
+    <div class="team-header">
+      <div class="section-label dark reveal">The people behind the work</div>
+      <h2 class="team-title reveal reveal-delay-1">Meet the<br><em>Alliance.</em></h2>
+    </div>
+    <div class="team-grid" style="grid-template-columns: repeat(3, 1fr);">
+
+      <!-- Kenneth Ameyaw -->
+      <div class="team-card reveal">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#1A3A1E"/>
+            <!-- Geometric placeholder - overlapping circles + monogram -->
+            <circle cx="150" cy="190" r="120" fill="#0D2010" opacity="0.6"/>
+            <circle cx="110" cy="160" r="70" fill="#2C4A2E" opacity="0.35"/>
+            <circle cx="190" cy="220" r="80" fill="#1A5C2E" opacity="0.25"/>
+            <!-- Diagonal line texture -->
+            <line x1="0" y1="0" x2="300" y2="380" stroke="#2C5235" stroke-width="0.5" opacity="0.3"/>
+            <line x1="60" y1="0" x2="300" y2="280" stroke="#2C5235" stroke-width="0.5" opacity="0.2"/>
+            <line x1="0" y1="80" x2="220" y2="380" stroke="#2C5235" stroke-width="0.5" opacity="0.2"/>
+            <!-- Monogram -->
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#4A7A50" opacity="0.5">K</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#3A6040" opacity="0.3">A</text>
+            <!-- Corner accent -->
+            <rect x="0" y="0" width="6" height="60" fill="#4A7A50" opacity="0.5"/>
+            <rect x="0" y="0" width="60" height="6" fill="#4A7A50" opacity="0.5"/>
+            <!-- Photo placeholder label -->
+            <rect x="80" y="330" width="140" height="1" fill="#4A7A50" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#4A7A50" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        <div class="team-overlay">
+          <p class="team-bio">Kenneth co-founded Earth Fallow Alliance with a vision rooted in community-led environmental renewal. He brings together the partnerships and strategic direction that keep the alliance moving forward.</p>
         </div>
-      </a>
-      <a class="program-row reveal" href="#">
-        <div class="program-num">04</div>
-        <div class="program-info">
-          <div class="program-tag-small">Education</div>
-          <div class="program-title-row">Green Futures Fellowship</div>
-          <div class="program-desc-row">An annual fellowship for 18–25 year olds to design and implement a local environmental project — with full mentorship and funding.</div>
+        <div class="team-info">
+          <div class="team-name">Kenneth Ameyaw</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Co-Founder</div>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+      </div>
+
+      <!-- Leonard Addae -->
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#1B3D6E"/>
+            <circle cx="150" cy="190" r="120" fill="#0D2040" opacity="0.6"/>
+            <circle cx="190" cy="150" r="75" fill="#2A5FA8" opacity="0.2"/>
+            <circle cx="110" cy="230" r="85" fill="#1B3D6E" opacity="0.4"/>
+            <line x1="300" y1="0" x2="0" y2="380" stroke="#2A5FA8" stroke-width="0.5" opacity="0.3"/>
+            <line x1="240" y1="0" x2="0" y2="280" stroke="#2A5FA8" stroke-width="0.5" opacity="0.2"/>
+            <line x1="300" y1="80" x2="80" y2="380" stroke="#2A5FA8" stroke-width="0.5" opacity="0.2"/>
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#4A80C0" opacity="0.5">L</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#3A6090" opacity="0.3">A</text>
+            <rect x="294" y="0" width="6" height="60" fill="#4A80C0" opacity="0.5"/>
+            <rect x="240" y="0" width="60" height="6" fill="#4A80C0" opacity="0.5"/>
+            <rect x="80" y="330" width="140" height="1" fill="#4A80C0" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#4A80C0" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
         </div>
-      </a>
-      <a class="program-row reveal" href="#">
-        <div class="program-num">05</div>
-        <div class="program-info">
-          <div class="program-tag-small">Community</div>
-          <div class="program-title-row">Alliance Ambassadors</div>
-          <div class="program-desc-row">A volunteer network of local champions embedding environmental practice into markets, schools, and community gatherings.</div>
+        <div class="team-overlay">
+          <p class="team-bio">Leonard co-founded the Alliance and oversees its operational and programmatic foundations. His background in community mobilisation shapes how Earth Fallow engages with the people it serves.</p>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        <div class="team-info">
+          <div class="team-name">Leonard Addae</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Co-Founder</div>
         </div>
-      </a>
-      <a class="program-row reveal" href="#">
-        <div class="program-num">06</div>
-        <div class="program-info">
-          <div class="program-tag-small">Research</div>
-          <div class="program-title-row">The Land Memory Project</div>
-          <div class="program-desc-row">Documenting ecological change at a hyper-local level — partnering universities with elders who remember what the land once looked like.</div>
+      </div>
+
+      <!-- Mary Cudjoe -->
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#3A1A2A"/>
+            <circle cx="150" cy="190" r="120" fill="#200D18" opacity="0.6"/>
+            <circle cx="120" cy="145" r="75" fill="#7A3A60" opacity="0.2"/>
+            <circle cx="180" cy="235" r="80" fill="#5A2A45" opacity="0.25"/>
+            <line x1="0" y1="0" x2="300" y2="380" stroke="#7A4A60" stroke-width="0.5" opacity="0.3"/>
+            <line x1="60" y1="0" x2="300" y2="280" stroke="#7A4A60" stroke-width="0.5" opacity="0.2"/>
+            <line x1="0" y1="80" x2="220" y2="380" stroke="#7A4A60" stroke-width="0.5" opacity="0.2"/>
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#B5922A" opacity="0.55">M</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#9A7A20" opacity="0.3">C</text>
+            <rect x="0" y="320" width="6" height="60" fill="#B5922A" opacity="0.5"/>
+            <rect x="0" y="374" width="60" height="6" fill="#B5922A" opacity="0.5"/>
+            <rect x="80" y="330" width="140" height="1" fill="#B5922A" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#B5922A" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
         </div>
-        <div class="program-arrow">
-          <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
+        <div class="team-overlay">
+          <p class="team-bio">Mary leads the Alliance's work at the intersection of gender equity and youth development. She ensures that the voices most often left out — women and young people — are centred in every programme design.</p>
         </div>
-      </a>
+        <div class="team-info">
+          <div class="team-name">Mary Cudjoe</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Gender &amp; Youth Coordinator</div>
+        </div>
+      </div>
+
+      <!-- Joachim Asare -->
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#1A1A2E"/>
+            <circle cx="150" cy="190" r="120" fill="#0D0D20" opacity="0.6"/>
+            <circle cx="185" cy="150" r="75" fill="#3A3A7A" opacity="0.2"/>
+            <circle cx="115" cy="230" r="80" fill="#2A2A5A" opacity="0.25"/>
+            <line x1="300" y1="0" x2="0" y2="380" stroke="#5A5AAA" stroke-width="0.5" opacity="0.3"/>
+            <line x1="240" y1="0" x2="0" y2="280" stroke="#5A5AAA" stroke-width="0.5" opacity="0.2"/>
+            <line x1="300" y1="80" x2="80" y2="380" stroke="#5A5AAA" stroke-width="0.5" opacity="0.2"/>
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#7A7ACA" opacity="0.5">J</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#5A5AAA" opacity="0.3">A</text>
+            <rect x="294" y="320" width="6" height="60" fill="#7A7ACA" opacity="0.5"/>
+            <rect x="240" y="374" width="60" height="6" fill="#7A7ACA" opacity="0.5"/>
+            <rect x="80" y="330" width="140" height="1" fill="#7A7ACA" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#7A7ACA" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
+        </div>
+        <div class="team-overlay">
+          <p class="team-bio">Joachim manages the Alliance's communications and public relations. He shapes how Earth Fallow tells its story — to partners, to the press, and to the communities whose stories deserve to be heard.</p>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Joachim Asare</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Public Relations Officer</div>
+        </div>
+      </div>
+
+      <!-- Albert Worae -->
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#1A2A10"/>
+            <circle cx="150" cy="190" r="120" fill="#0D1A08" opacity="0.6"/>
+            <circle cx="115" cy="155" r="70" fill="#3A6A20" opacity="0.2"/>
+            <circle cx="185" cy="225" r="80" fill="#2A5A18" opacity="0.25"/>
+            <line x1="0" y1="0" x2="300" y2="380" stroke="#5A8A40" stroke-width="0.5" opacity="0.3"/>
+            <line x1="60" y1="0" x2="300" y2="280" stroke="#5A8A40" stroke-width="0.5" opacity="0.2"/>
+            <line x1="0" y1="80" x2="220" y2="380" stroke="#5A8A40" stroke-width="0.5" opacity="0.2"/>
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#6AAA40" opacity="0.5">A</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#4A8A30" opacity="0.3">W</text>
+            <rect x="0" y="0" width="6" height="60" fill="#6AAA40" opacity="0.5"/>
+            <rect x="0" y="374" width="60" height="6" fill="#6AAA40" opacity="0.5"/>
+            <rect x="80" y="330" width="140" height="1" fill="#6AAA40" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#6AAA40" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
+        </div>
+        <div class="team-overlay">
+          <p class="team-bio">Albert coordinates the Alliance's projects from inception to delivery. He keeps programmes on track, on budget, and grounded in the communities they are designed to serve.</p>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Albert Worae</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Project Coordinator</div>
+        </div>
+      </div>
+
+      <!-- Samuel Sintim -->
+      <div class="team-card reveal reveal-delay-3">
+        <div class="team-avatar">
+          <svg class="avatar-illustration" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <rect width="300" height="380" fill="#2A1A10"/>
+            <circle cx="150" cy="190" r="120" fill="#1A0D08" opacity="0.6"/>
+            <circle cx="180" cy="150" r="72" fill="#7A4A20" opacity="0.2"/>
+            <circle cx="120" cy="230" r="82" fill="#5A3A18" opacity="0.25"/>
+            <line x1="300" y1="0" x2="0" y2="380" stroke="#8A5A30" stroke-width="0.5" opacity="0.3"/>
+            <line x1="240" y1="0" x2="0" y2="280" stroke="#8A5A30" stroke-width="0.5" opacity="0.2"/>
+            <line x1="300" y1="80" x2="80" y2="380" stroke="#8A5A30" stroke-width="0.5" opacity="0.2"/>
+            <text x="150" y="175" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#C09252" opacity="0.5">S</text>
+            <text x="150" y="245" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" font-weight="300" fill="#A07A40" opacity="0.3">S</text>
+            <rect x="294" y="0" width="6" height="60" fill="#C09252" opacity="0.5"/>
+            <rect x="240" y="374" width="60" height="6" fill="#C09252" opacity="0.5"/>
+            <rect x="80" y="330" width="140" height="1" fill="#C09252" opacity="0.4"/>
+            <text x="150" y="350" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" fill="#C09252" opacity="0.6" letter-spacing="2">PHOTO COMING SOON</text>
+          </svg>
+        </div>
+        <div class="team-overlay">
+          <p class="team-bio">Samuel supports project coordination across the Alliance's active programmes. He works closely with Albert to ensure that field activities run smoothly and that communities experience the full value of every intervention.</p>
+        </div>
+        <div class="team-info">
+          <div class="team-name">Samuel Sintim</div>
+          <div class="team-divider"></div>
+          <div class="team-role">Deputy Project Coordinator</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- DONATE -->
-<section id="donate" style="background: var(--mist);">
-  <div class="donate">
-    <div class="donate-left">
+<section id="donate" class="donate">
+  <div class="donate-inner">
+    <div>
       <div class="section-label dark reveal">Support the Alliance</div>
       <h2 class="donate-title reveal reveal-delay-1">Your contribution<br>plants <em>deep roots.</em></h2>
-      <p class="donate-body reveal reveal-delay-2">
-        We are community-funded. No corporate donor tells us which land to restore or which policy table to avoid. That independence comes from people who choose to back work that answers to the earth — not a boardroom.
-      </p>
+      <p class="donate-body reveal reveal-delay-2">We are community-funded. No corporate donor shapes our work or tells us which land to restore. That independence comes from people who choose to back work that answers to the earth — not a boardroom.</p>
       <div class="donate-tiers reveal reveal-delay-3" id="tiers">
         <button class="tier" onclick="setTier(this,'25')">GHS 25</button>
         <button class="tier active" onclick="setTier(this,'50')">GHS 50</button>
@@ -1442,25 +1658,13 @@ footer {
       </div>
       <p class="donate-note reveal reveal-delay-4">GHS 50 sponsors one sapling and its first full year of care.</p>
     </div>
-    <div class="donate-right reveal reveal-delay-2">
+    <div class="reveal reveal-delay-2">
       <div class="donate-form">
         <div class="donate-form-title">Make a contribution</div>
-        <div class="field">
-          <label>Full name</label>
-          <input type="text" placeholder="Your name">
-        </div>
-        <div class="field">
-          <label>Email address</label>
-          <input type="email" placeholder="you@email.com">
-        </div>
-        <div class="field">
-          <label>Amount (GHS)</label>
-          <input type="number" id="amount-input" value="50" placeholder="50">
-        </div>
-        <div class="field">
-          <label>Dedicate this gift (optional)</label>
-          <input type="text" placeholder="In honour of...">
-        </div>
+        <div class="field"><label>Full name</label><input type="text" placeholder="Your name"></div>
+        <div class="field"><label>Email address</label><input type="email" placeholder="you@email.com"></div>
+        <div class="field"><label>Amount (GHS)</label><input type="number" id="amount-input" value="50" placeholder="50"></div>
+        <div class="field"><label>Dedicate this gift (optional)</label><input type="text" placeholder="In honour of..."></div>
         <button class="submit-btn">Contribute to the Alliance</button>
         <div class="form-footnote">Secure payment · Tax receipt issued · No unsolicited mail, ever</div>
       </div>
@@ -1476,38 +1680,26 @@ footer {
         <div class="section-label light reveal">Stories from the field</div>
         <h2 class="stories-title reveal reveal-delay-1">From the<br><em>ground up.</em></h2>
       </div>
-      <a href="#" class="all-link reveal reveal-delay-2">
-        All stories
-        <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg>
-      </a>
+      <a href="#" class="all-link reveal reveal-delay-2">All stories <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H7M17 7v10"/></svg></a>
     </div>
     <div class="stories-grid">
       <div class="story-card featured reveal">
         <div class="story-meta">Land Restoration <span>·</span> April 2025</div>
         <h3 class="story-title">The village that turned its dry season into a planting season</h3>
-        <p class="story-excerpt">Nkonya Ahenkro used to lose topsoil every harmattan. Three years into the Fallow Fields Initiative, the community has flipped the script — using the dry months to prepare, not mourn. The change did not begin with us. It began with a question we asked.</p>
-        <a href="#" class="story-read">
-          Read the story
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        <p class="story-excerpt">Nkonya Ahenkro used to lose topsoil every harmattan. Three years into the Fallow Fields Initiative, the community has flipped the script — using dry months to prepare, not mourn.</p>
+        <a href="#" class="story-read">Read the story <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
       <div class="story-card reveal reveal-delay-1">
         <div class="story-meta">Policy <span>·</span> March 2025</div>
         <h3 class="story-title">What happened when farmers testified at Parliament</h3>
         <p class="story-excerpt">For the first time, three Alliance Ambassadors presented community evidence to a parliamentary select committee on land use.</p>
-        <a href="#" class="story-read">
-          Read
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        <a href="#" class="story-read">Read <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
       <div class="story-card reveal reveal-delay-2">
         <div class="story-meta">Education <span>·</span> February 2025</div>
         <h3 class="story-title">Meet the 2025 Green Futures Fellows</h3>
-        <p class="story-excerpt">Twelve young people. Twelve bold local projects. One year to build something real in their communities.</p>
-        <a href="#" class="story-read">
-          Read
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        <p class="story-excerpt">Twelve young people. Twelve bold local projects. One year to make something real happen in their communities.</p>
+        <a href="#" class="story-read">Read <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div>
   </div>
@@ -1519,64 +1711,20 @@ footer {
     <div>
       <div class="section-label dark reveal">Get in touch</div>
       <h2 class="contact-title reveal reveal-delay-1">There is room<br>for <em>everyone</em><br>in this alliance.</h2>
-      <p class="contact-body reveal reveal-delay-2">
-        Whether you are a community leader, researcher, funder, or simply someone who cares — we want to hear from you. The alliance grows because people choose to show up.
-      </p>
+      <p class="contact-body reveal reveal-delay-2">Whether you are a community leader, researcher, funder, or simply someone who cares — there is a place for you here.</p>
       <div class="contact-details reveal reveal-delay-3">
-        <div class="contact-line">
-          <div class="contact-line-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </div>
-          <div class="contact-line-text">
-            <div class="contact-line-key">Location</div>
-            <div class="contact-line-val">Accra, Ghana</div>
-          </div>
-        </div>
-        <div class="contact-line">
-          <div class="contact-line-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div class="contact-line-text">
-            <div class="contact-line-key">Email</div>
-            <div class="contact-line-val">hello@earthfallowalliance.org</div>
-          </div>
-        </div>
-        <div class="contact-line">
-          <div class="contact-line-icon">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-          </div>
-          <div class="contact-line-text">
-            <div class="contact-line-key">Phone</div>
-            <div class="contact-line-val">+233 30 000 0000</div>
-          </div>
-        </div>
+        <div class="contact-line"><div class="contact-line-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><div class="contact-line-key">Location</div><div class="contact-line-val">Accra, Ghana</div></div></div>
+        <div class="contact-line"><div class="contact-line-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-line-key">Email</div><div class="contact-line-val">hello@earthfallowalliance.org</div></div></div>
+        <div class="contact-line"><div class="contact-line-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div><div class="contact-line-key">Phone</div><div class="contact-line-val">+233 30 000 0000</div></div></div>
       </div>
     </div>
-    <div class="contact-right reveal reveal-delay-2">
+    <div class="reveal reveal-delay-2">
       <div class="contact-form">
         <div class="donate-form-title">Send us a message</div>
-        <div class="field">
-          <label>Your name</label>
-          <input type="text" placeholder="Full name">
-        </div>
-        <div class="field">
-          <label>Email</label>
-          <input type="email" placeholder="you@email.com">
-        </div>
-        <div class="field">
-          <label>How can we help?</label>
-          <select>
-            <option>Partnership enquiry</option>
-            <option>Volunteering</option>
-            <option>Media request</option>
-            <option>Fellowship application</option>
-            <option>General question</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Message</label>
-          <textarea rows="5" placeholder="Tell us what is on your mind..."></textarea>
-        </div>
+        <div class="field"><label>Your name</label><input type="text" placeholder="Full name"></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+        <div class="field"><label>How can we help?</label><select><option>Partnership enquiry</option><option>Volunteering</option><option>Media request</option><option>Fellowship application</option><option>General question</option></select></div>
+        <div class="field"><label>Message</label><textarea rows="5" placeholder="Tell us what is on your mind..."></textarea></div>
         <button class="submit-btn">Send message</button>
       </div>
     </div>
@@ -1592,31 +1740,15 @@ footer {
     </div>
     <div>
       <div class="footer-col-head">Organisation</div>
-      <ul class="footer-col-links">
-        <li><a href="#">About us</a></li>
-        <li><a href="#">Our team</a></li>
-        <li><a href="#">Annual reports</a></li>
-        <li><a href="#">Partners</a></li>
-      </ul>
+      <ul class="footer-col-links"><li><a href="#">About us</a></li><li><a href="#">Our team</a></li><li><a href="#">Annual reports</a></li><li><a href="#">Partners</a></li></ul>
     </div>
     <div>
       <div class="footer-col-head">Programs</div>
-      <ul class="footer-col-links">
-        <li><a href="#">Fallow Fields</a></li>
-        <li><a href="#">Climate Desk</a></li>
-        <li><a href="#">Zero-to-Landfill</a></li>
-        <li><a href="#">Green Futures</a></li>
-        <li><a href="#">Land Memory</a></li>
-      </ul>
+      <ul class="footer-col-links"><li><a href="#">Fallow Fields</a></li><li><a href="#">Climate Desk</a></li><li><a href="#">Zero-to-Landfill</a></li><li><a href="#">Green Futures</a></li><li><a href="#">Land Memory</a></li></ul>
     </div>
     <div>
       <div class="footer-col-head">Connect</div>
-      <ul class="footer-col-links">
-        <li><a href="#">Stories</a></li>
-        <li><a href="#">Volunteer</a></li>
-        <li><a href="#">Donate</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
+      <ul class="footer-col-links"><li><a href="#">Stories</a></li><li><a href="#">Volunteer</a></li><li><a href="#">Donate</a></li><li><a href="#">Contact</a></li></ul>
     </div>
   </div>
   <div class="footer-bottom">
@@ -1626,67 +1758,52 @@ footer {
 </footer>
 
 <script>
-// Custom cursor
+// ─── CURSOR ───
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
-
 document.addEventListener('mousemove', e => {
   mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
 });
-
 (function animRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) *.12;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   requestAnimationFrame(animRing);
 })();
-
-document.querySelectorAll('a, button, .program-row, .story-card, .pillar, .tier').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(2.5)';
-    cursor.style.background = 'var(--moss)';
-    ring.style.opacity = '0.2';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    cursor.style.background = 'var(--moss)';
-    ring.style.opacity = '0.5';
-  });
+document.querySelectorAll('a, button, .program-row, .story-card, .pillar, .tier, .thematic-card, .team-card').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; ring.style.opacity = '0.2'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.opacity = '0.5'; });
 });
 
-// Nav scroll
+// ─── NAV SCROLL ───
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-});
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
 
-// Scroll reveal
-const revealEls = document.querySelectorAll('.reveal');
+// ─── SCROLL REVEAL ───
 const io = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-revealEls.forEach(el => io.observe(el));
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// Donate tiers
+// ─── FIREFLIES ───
+const ff = document.getElementById('fireflies');
+for (let i = 0; i < 22; i++) {
+  const f = document.createElement('div');
+  f.className = 'firefly';
+  const x = Math.random() * 100, y = Math.random() * 100;
+  const dx = (Math.random() - 0.5) * 200, dy = (Math.random() - 0.5) * 200;
+  const dur = 4 + Math.random() * 8;
+  f.style.cssText = `left:${x}%;top:${y}%;--dx:${dx}px;--dy:${dy}px;animation-duration:${dur}s;animation-delay:${-Math.random()*dur}s;`;
+  ff.appendChild(f);
+}
+
+// ─── DONATE TIERS ───
 function setTier(btn, amount) {
   document.querySelectorAll('.tier').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const input = document.getElementById('amount-input');
-  if (amount !== '') {
-    input.value = amount;
-  } else {
-    input.value = '';
-    input.focus();
-  }
+  if (amount !== '') { input.value = amount; } else { input.value = ''; input.focus(); }
 }
 </script>
 </body>
